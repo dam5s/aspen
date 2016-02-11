@@ -1,0 +1,3 @@
+rootProject.name="kspec"
+
+include "libraries/kspec"

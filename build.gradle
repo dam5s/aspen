@@ -1,0 +1,38 @@
+group "io.damo"
+version "1.0-SNAPSHOT"
+description "Descriptive unit tests à la Rspec"
+
+buildscript {
+    ext {
+        kotlinVersion = "1.0.0-rc-1036"
+    }
+
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+subprojects {
+    apply plugin: "kotlin"
+
+    repositories {
+        jcenter()
+        maven {
+            url "http://repository.jetbrains.com/all"
+        }
+    }
+
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+        testCompile "junit:junit:4.12"
+        testCompile "org.hamcrest:hamcrest-all:1.3"
+    }
+}
