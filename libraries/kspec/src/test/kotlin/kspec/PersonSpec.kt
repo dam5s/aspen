@@ -1,12 +1,9 @@
 package kspec
 
-import io.damo.kspec.JUnitClassRunner
 import io.damo.kspec.Spec
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
-import org.junit.runner.RunWith
 
-@RunWith(JUnitClassRunner::class)
 class PersonSpec : Spec() {
     lateinit var person: Person
 
