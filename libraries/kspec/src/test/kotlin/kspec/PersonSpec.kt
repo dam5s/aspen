@@ -1,9 +1,12 @@
 package kspec
 
+import io.damo.kspec.JUnitClassRunner
 import io.damo.kspec.Spec
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
+import org.junit.runner.RunWith
 
+@RunWith(JUnitClassRunner::class)
 class PersonSpec : Spec() {
     lateinit var person: Person
 
@@ -30,7 +33,7 @@ class PersonSpec : Spec() {
 
         describe("#greeting") {
             context {
-                assertThat(person.greeting(), equalTo("Greetings John!"))
+                assertThat(person.greeting(), equalTo("Greetings Jane!"))
             }
         }
     }
@@ -51,7 +54,3 @@ data class Person(
 fun Person.fullName() = "$firstName $lastName"
 
 fun Person.greeting() = "Greetings $firstName!"
-
-fun main(args : Array<String>) {
-    PersonSpec().run()
-}

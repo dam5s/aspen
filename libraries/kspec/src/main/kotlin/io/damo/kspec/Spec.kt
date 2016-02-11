@@ -1,47 +1,38 @@
 package io.damo.kspec
 
 open class Spec {
-    private var beforeBlock: (() -> Unit)? = null
-    private var descriptions = arrayListOf<Description>()
+    var descriptions = arrayListOf<SpecDescription>()
+        private set
+    var beforeBlock: (() -> Unit)? = null
+        private set
 
     fun before(block: () -> Unit) {
         beforeBlock = block
     }
 
-    fun describe(name: String, block: Description.() -> Unit) {
-        val description = Description(name).apply(block)
+    fun describe(name: String, block: SpecDescription.() -> Unit) {
+        val description = SpecDescription(name).apply(block)
         descriptions.add(description)
-    }
-
-    fun run() {
-        descriptions.forEach {
-            it.run(beforeBlock)
-        }
     }
 }
 
-class Description(val name: String) {
-    private var contexts = arrayListOf<Context>()
+class SpecDescription(val name: String) {
+    var contexts = arrayListOf<SpecContext>()
+        private set
 
-    fun context(block: Context.() -> Unit) {
+    fun context(block: SpecContext.() -> Unit) {
         context("happy path", block)
     }
 
-    fun context(name: String, block: Context.() -> Unit) {
-        val context = Context(name, block)
+    fun context(name: String, block: SpecContext.() -> Unit) {
+        val context = SpecContext(name, block)
         contexts.add(context)
-    }
-
-    fun run(beforeBlock: (() -> Unit)?) {
-        contexts.forEach {
-            beforeBlock?.invoke()
-            it.run()
-        }
     }
 }
 
-class Context(val name: String, val block: Context.() -> Unit) {
-    fun run() {
+class SpecContext(val name: String, val block: SpecContext.() -> Unit) {
+    fun run(beforeBlock: (() -> Unit)?) {
+        beforeBlock?.invoke()
         block()
     }
 }
