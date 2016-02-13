@@ -6,11 +6,17 @@ import org.junit.runner.notification.RunNotifier
 import org.junit.runners.ParentRunner
 import java.io.Serializable
 
-class JUnitDescriptionRunner<T>(val specificationClass: Class<T>, val specDescription: SpecDescription, val beforeBlock: (() -> Unit)?): ParentRunner<SpecContext>(specificationClass) {
+class JUnitDescriptionRunner<T>(
+    val specificationClass: Class<T>,
+    val specDescription: SpecDescription,
+    val beforeBlock: (() -> Unit)?,
+    val afterBlock: (() -> Unit)?
+) : ParentRunner<SpecContext>(specificationClass) {
+
     override fun getChildren(): MutableList<SpecContext> = specDescription.contexts
 
     override fun runChild(child: SpecContext, notifier: RunNotifier) {
-        junitAction(describeChild(child), notifier) { child.run(beforeBlock) }
+        junitAction(describeChild(child), notifier) { child.run(beforeBlock, afterBlock) }
     }
 
     override fun describeChild(child: SpecContext) =
@@ -31,7 +37,7 @@ class JUnitClassRunner<T>(val specificationClass: Class<T>): ParentRunner<JUnitD
             val spec = specificationClass.newInstance() as Spec
 
             return spec.descriptions
-                .map { JUnitDescriptionRunner(specificationClass, it, spec.beforeBlock) }
+                .map { JUnitDescriptionRunner(specificationClass, it, spec.beforeBlock, spec.afterBlock) }
                 .toMutableList()
         }
 

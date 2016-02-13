@@ -8,6 +8,8 @@ open class Spec {
         private set
     var beforeBlock: (() -> Unit)? = null
         private set
+    var afterBlock: (() -> Unit)? = null
+        private set
 
     constructor(body: Spec.() -> Unit) {
         this.body()
@@ -15,6 +17,10 @@ open class Spec {
 
     fun before(block: () -> Unit) {
         beforeBlock = block
+    }
+
+    fun after(block: () -> Unit) {
+        afterBlock = block
     }
 
     fun describe(name: String, block: SpecDescription.() -> Unit) {
@@ -40,8 +46,12 @@ class SpecDescription(val name: String) {
 }
 
 class SpecContext(val name: String, val block: SpecContext.() -> Unit) {
-    fun run(beforeBlock: (() -> Unit)?) {
+    fun run(beforeBlock: (() -> Unit)?, afterBlock: (() -> Unit)?) {
         beforeBlock?.invoke()
-        block()
+        try {
+            block()
+        } finally {
+            afterBlock?.invoke()
+        }
     }
 }

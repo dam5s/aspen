@@ -1,16 +1,16 @@
 package kspec
 
 import io.damo.kspec.Spec
-import org.mockito.Mockito.*
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
+import org.mockito.Mockito.*
 
 class CompanyControllerSpec: Spec({
 
     val mockRepo = mock(CompanyRepository::class.java)
     val controller = CompanyController(mockRepo)
 
-    before {
+    after {
         reset(mockRepo)
     }
 
