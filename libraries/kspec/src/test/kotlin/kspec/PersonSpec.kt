@@ -4,37 +4,35 @@ import io.damo.kspec.Spec
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 
-class PersonSpec : Spec() {
-    lateinit var person: Person
+class PersonSpec : Spec({
+    var person = buildPerson()
 
-    init {
-        before {
-            person = buildPerson(firstName = "Jane", lastName = "Doe")
+    before {
+        person = buildPerson(firstName = "Jane", lastName = "Doe")
+    }
+
+    describe("#fullName") {
+        context {
+            assertThat(person.fullName(), equalTo("Jane Doe"))
         }
 
-        describe("#fullName") {
-            context {
-                assertThat(person.fullName(), equalTo("Jane Doe"))
-            }
+        context("with a middle name") {
+            person = buildPerson(
+                firstName = "John",
+                middleName = "William",
+                lastName = "Doe"
+            )
 
-            context("with a middle name") {
-                person = buildPerson(
-                    firstName = "John",
-                    middleName = "William",
-                    lastName = "Doe"
-                )
-
-                assertThat(person.fullName(), equalTo("John W. Doe"))
-            }
-        }
-
-        describe("#greeting") {
-            context {
-                assertThat(person.greeting(), equalTo("Greetings Jane!"))
-            }
+            assertThat(person.fullName(), equalTo("John W. Doe"))
         }
     }
-}
+
+    describe("#greeting") {
+        context {
+            assertThat(person.greeting(), equalTo("Greetings Jane!"))
+        }
+    }
+})
 
 fun buildPerson(
     firstName: String = "John",

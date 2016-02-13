@@ -9,6 +9,10 @@ open class Spec {
     var beforeBlock: (() -> Unit)? = null
         private set
 
+    constructor(body: Spec.() -> Unit) {
+        this.body()
+    }
+
     fun before(block: () -> Unit) {
         beforeBlock = block
     }
@@ -23,8 +27,10 @@ class SpecDescription(val name: String) {
     var contexts = arrayListOf<SpecContext>()
         private set
 
+    var unnamedContexts = 0
+
     fun context(block: SpecContext.() -> Unit) {
-        context("happy path", block)
+        context("unnamed #${++unnamedContexts}", block)
     }
 
     fun context(name: String, block: SpecContext.() -> Unit) {

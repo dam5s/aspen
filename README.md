@@ -8,37 +8,35 @@ but it has a lot more restrictions and some features have been purposefully omit
 If you were to use Hamcrest for assertions.
 
 ```
-class PersonSpec: Spec() {
-    lateinit var person: Person
+class CompanyControllerSpec: Spec({
 
-    init {
-        before {
-            person = buildPerson(firstName = "Jane", lastName = "Doe")
+    val mockRepo = mock(CompanyRepository::class.java)
+    val controller = CompanyController(mockRepo)
+
+    before {
+        reset(mockRepo)
+    }
+
+    describe("#create") {
+        context {
+            val company = Company(name = "Wayne Enterprises")
+            doReturn(company).`when`(mockRepo).create(anyString())
+
+            val response = controller.create("Wayne Ent.")
+
+            assertThat(response, equalTo(Response(company, true)))
+            verify(mockRepo).create("Wayne Ent.")
         }
 
-        describe("#fullName") {
-            context {
-                assertThat(person.fullName(), equalTo("Jane Doe"))
-            }
+        context("repository creation error") {
+            doReturn(null).`when`(mockRepo).create(anyString())
 
-            context("with a middle name") {
-                person = buildPerson(
-                    firstName = "John",
-                    middleName = "William",
-                    lastName = "Doe"
-                )
+            val response = controller.create("Wayne Ent.")
 
-                assertThat(person.fullName(), equalTo("John W. Doe"))
-            }
-        }
-
-        describe("#greeting") {
-            context {
-                assertThat(person.greeting(), equalTo("Greetings Jane!"))
-            }
+            assertThat(response, equalTo(Response(null as Company?, false)))
         }
     }
-}
+})
 ```
 
 ## Restrictions
