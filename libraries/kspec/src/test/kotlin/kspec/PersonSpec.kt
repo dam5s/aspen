@@ -5,30 +5,32 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 
 class PersonSpec : Spec({
-    var person = buildPerson()
-
-    before {
-        person = buildPerson(firstName = "Jane", lastName = "Doe")
-    }
 
     describe("#fullName") {
         context {
+            val person = buildPerson(
+                firstName = "Jane",
+                lastName = "Doe"
+            )
             assertThat(person.fullName(), equalTo("Jane Doe"))
         }
 
         context("with a middle name") {
-            person = buildPerson(
+            val person = buildPerson(
                 firstName = "John",
                 middleName = "William",
                 lastName = "Doe"
             )
-
             assertThat(person.fullName(), equalTo("John W. Doe"))
         }
     }
 
     describe("#greeting") {
         context {
+            val person = buildPerson(
+                firstName = "Jane",
+                lastName = "Doe"
+            )
             assertThat(person.greeting(), equalTo("Greetings Jane!"))
         }
     }
