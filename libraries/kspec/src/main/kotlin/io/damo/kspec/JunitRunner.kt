@@ -13,7 +13,7 @@ class JUnitDescriptionRunner<T>(
     val afterBlock: (() -> Unit)?
 ) : ParentRunner<Test>(specificationClass) {
 
-    override fun getChildren(): MutableList<Test> = specDescription.tests
+    override fun getChildren(): List<Test> = specDescription.testsToRun
 
     override fun runChild(child: Test, notifier: RunNotifier) {
         junitAction(describeChild(child), notifier) { child.run(beforeBlock, afterBlock) }

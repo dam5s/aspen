@@ -30,8 +30,16 @@ open class Spec {
 }
 
 class SpecDescription(val name: String) {
-    var tests = arrayListOf<Test>()
-        private set
+    private var tests = arrayListOf<Test>()
+    private var focusedTests = arrayListOf<Test>()
+
+    val testsToRun: List<Test>
+        get() {
+            if (focusedTests.size > 0)
+                return focusedTests
+            else
+                return tests
+        }
 
     var unnamedContexts = 0
 
@@ -40,8 +48,15 @@ class SpecDescription(val name: String) {
     }
 
     fun test(name: String, block: Test.() -> Unit) {
-        val context = Test(name, block)
-        tests.add(context)
+        tests.add(Test(name, block))
+    }
+
+    fun ftest(block: Test.() -> Unit) {
+        ftest("unnamed test #${++unnamedContexts}", block)
+    }
+
+    fun ftest(name: String, block: Test.() -> Unit) {
+        focusedTests.add(Test(name, block))
     }
 }
 

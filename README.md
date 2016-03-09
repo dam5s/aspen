@@ -39,6 +39,21 @@ class CompanyControllerSpec: Spec({
 })
 ```
 
+You can focus a test by prefixing changing `test` to `ftest`. Then only this or these tests get run.
+For example running the tests above after replacing the second test with
+
+```
+ftest("repository creation error") {
+    doReturn(null).`when`(mockRepo).create(anyString())
+
+    val response = controller.create("Wayne Ent.")
+
+    assertThat(response, equalTo(Response(null as Company?, false)))
+}
+```
+
+Only that second test will get run.
+
 ## Restrictions
 
 There can only be one `before` block and it has to be at the top level.
