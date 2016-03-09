@@ -15,7 +15,7 @@ class CompanyControllerSpec: Spec({
     }
 
     describe("#create") {
-        context {
+        test {
             val company = Company(name = "Wayne Enterprises")
             doReturn(company).`when`(mockRepo).create(anyString())
 
@@ -25,7 +25,7 @@ class CompanyControllerSpec: Spec({
             verify(mockRepo).create("Wayne Ent.")
         }
 
-        context("repository creation error") {
+        test("repository creation error") {
             doReturn(null).`when`(mockRepo).create(anyString())
 
             val response = controller.create("Wayne Ent.")

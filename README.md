@@ -18,7 +18,7 @@ class CompanyControllerSpec: Spec({
     }
 
     describe("#create") {
-        context {
+        test {
             val company = Company(name = "Wayne Enterprises")
             doReturn(company).`when`(mockRepo).create(anyString())
 
@@ -28,7 +28,7 @@ class CompanyControllerSpec: Spec({
             verify(mockRepo).create("Wayne Ent.")
         }
 
-        context("repository creation error") {
+        test("repository creation error") {
             doReturn(null).`when`(mockRepo).create(anyString())
 
             val response = controller.create("Wayne Ent.")
@@ -42,7 +42,7 @@ class CompanyControllerSpec: Spec({
 ## Restrictions
 
 There can only be one `before` block and it has to be at the top level.
-`Describe` blocks can only contain `context` blocks and they cannot be nested further.
+`describe` blocks can only contain `test` blocks and they cannot be nested further.
 Unlike RSpec, there are no `it` blocks. We are trying to encourage having expressive assertions
 that should describe correctly your expectations.
 

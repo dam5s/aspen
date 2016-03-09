@@ -11,15 +11,15 @@ class JUnitDescriptionRunner<T>(
     val specDescription: SpecDescription,
     val beforeBlock: (() -> Unit)?,
     val afterBlock: (() -> Unit)?
-) : ParentRunner<SpecContext>(specificationClass) {
+) : ParentRunner<Test>(specificationClass) {
 
-    override fun getChildren(): MutableList<SpecContext> = specDescription.contexts
+    override fun getChildren(): MutableList<Test> = specDescription.tests
 
-    override fun runChild(child: SpecContext, notifier: RunNotifier) {
+    override fun runChild(child: Test, notifier: RunNotifier) {
         junitAction(describeChild(child), notifier) { child.run(beforeBlock, afterBlock) }
     }
 
-    override fun describeChild(child: SpecContext) =
+    override fun describeChild(child: Test) =
         Description.createSuiteDescription("${child.name} (${specDescription.name})", JUnitUniqueId.next())
 
     override fun getDescription(): Description {
@@ -55,7 +55,7 @@ class JUnitClassRunner<T>(val specificationClass: Class<T>): ParentRunner<JUnitD
 
 data class JUnitUniqueId(val id: Int) : Serializable {
     companion object {
-        var id = 0
+        private var id = 0
         fun next() = JUnitUniqueId(id++)
     }
 }

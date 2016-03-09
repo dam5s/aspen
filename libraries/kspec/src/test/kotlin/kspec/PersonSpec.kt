@@ -7,7 +7,7 @@ import org.junit.Assert.assertThat
 class PersonSpec : Spec({
 
     describe("#fullName") {
-        context {
+        test {
             val person = buildPerson(
                 firstName = "Jane",
                 lastName = "Doe"
@@ -15,7 +15,7 @@ class PersonSpec : Spec({
             assertThat(person.fullName(), equalTo("Jane Doe"))
         }
 
-        context("with a middle name") {
+        test("with a middle name") {
             val person = buildPerson(
                 firstName = "John",
                 middleName = "William",
@@ -26,7 +26,7 @@ class PersonSpec : Spec({
     }
 
     describe("#greeting") {
-        context {
+        test {
             val person = buildPerson(
                 firstName = "Jane",
                 lastName = "Doe"

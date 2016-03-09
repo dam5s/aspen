@@ -30,22 +30,22 @@ open class Spec {
 }
 
 class SpecDescription(val name: String) {
-    var contexts = arrayListOf<SpecContext>()
+    var tests = arrayListOf<Test>()
         private set
 
     var unnamedContexts = 0
 
-    fun context(block: SpecContext.() -> Unit) {
-        context("unnamed #${++unnamedContexts}", block)
+    fun test(block: Test.() -> Unit) {
+        test("unnamed test #${++unnamedContexts}", block)
     }
 
-    fun context(name: String, block: SpecContext.() -> Unit) {
-        val context = SpecContext(name, block)
-        contexts.add(context)
+    fun test(name: String, block: Test.() -> Unit) {
+        val context = Test(name, block)
+        tests.add(context)
     }
 }
 
-class SpecContext(val name: String, val block: SpecContext.() -> Unit) {
+class Test(val name: String, val block: Test.() -> Unit) {
     fun run(beforeBlock: (() -> Unit)?, afterBlock: (() -> Unit)?) {
         beforeBlock?.invoke()
         try {
