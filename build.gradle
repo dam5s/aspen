@@ -4,7 +4,7 @@ description "Descriptive unit tests à la Rspec"
 
 buildscript {
     ext {
-        kotlinVersion = "1.0.0-rc-1036"
+        kotlinVersion = "1.0.0"
     }
 
     repositories {
