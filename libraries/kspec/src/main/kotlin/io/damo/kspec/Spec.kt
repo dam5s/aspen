@@ -43,19 +43,11 @@ class SpecDescription(val name: String) {
 
     var unnamedContexts = 0
 
-    fun test(block: Test.() -> Unit) {
-        test("unnamed test #${++unnamedContexts}", block)
-    }
-
-    fun test(name: String, block: Test.() -> Unit) {
+    fun test(name: String = "unnamed test #${++unnamedContexts}", block: Test.() -> Unit) {
         tests.add(Test(name, block))
     }
 
-    fun ftest(block: Test.() -> Unit) {
-        ftest("unnamed test #${++unnamedContexts}", block)
-    }
-
-    fun ftest(name: String, block: Test.() -> Unit) {
+    fun ftest(name: String = "unnamed test #${++unnamedContexts}", block: Test.() -> Unit) {
         focusedTests.add(Test(name, block))
     }
 }
