@@ -17,7 +17,7 @@ publishing {
             from components.java
             groupId "io.damo.kspec"
             artifactId "kspec"
-            version "1.0.0"
+            version "1.0.1"
 
             artifact sourcesJar
         }
@@ -41,7 +41,7 @@ bintray {
         licenses = ["MIT"]
 
         version {
-            name = "1.0.0"
+            name = "1.0.1"
             desc = "Descriptive unit tests à la Rspec"
         }
     }
