@@ -2,6 +2,15 @@ apply plugin: "com.jfrog.bintray"
 apply plugin: "maven"
 apply plugin: "maven-publish"
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 publishing {
     publications {
         KSpecPublication(MavenPublication) {
@@ -9,6 +18,8 @@ publishing {
             groupId "io.damo.kspec"
             artifactId "kspec"
             version "1.0.0"
+
+            artifact sourcesJar
         }
     }
 }
@@ -35,4 +46,3 @@ bintray {
         }
     }
 }
-
