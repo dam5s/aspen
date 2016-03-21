@@ -1,6 +1,7 @@
 package kspec
 
 import kspec.examples.CompanyControllerSpec
+import kspec.examples.FocusedSpec
 import kspec.examples.PersonSpec
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
@@ -34,6 +35,15 @@ class KspecTest {
 
         assertThat(listener.failingTests, equalTo(listOf(
             "with a middle name (#fullName)"
+        )))
+    }
+
+    @Test
+    fun testFocusedSpec() {
+        val listener = runSpec(FocusedSpec::class)
+
+        assertThat(listener.tests, equalTo(listOf(
+            "focused (#something)"
         )))
     }
 }
