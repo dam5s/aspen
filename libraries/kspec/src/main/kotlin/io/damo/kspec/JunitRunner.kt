@@ -31,7 +31,7 @@ class JUnitDescriptionRunner<T>(
     }
 }
 
-class JUnitClassRunner<T>(val specificationClass: Class<T>): ParentRunner<JUnitDescriptionRunner<T>>(specificationClass) {
+class JUnitKSpecClassRunner<T>(val specificationClass: Class<T>) : ParentRunner<JUnitDescriptionRunner<T>>(specificationClass) {
     override fun getChildren(): MutableList<JUnitDescriptionRunner<T>> {
         if (Spec::class.java.isAssignableFrom(specificationClass) && !specificationClass.isLocalClass) {
             val spec = specificationClass.newInstance() as Spec

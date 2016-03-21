@@ -1,4 +1,4 @@
-package kspec
+package kspec.examples
 
 import io.damo.kspec.Spec
 import org.hamcrest.Matchers.equalTo

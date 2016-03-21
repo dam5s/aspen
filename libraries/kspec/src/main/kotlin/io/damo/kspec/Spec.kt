@@ -2,7 +2,7 @@ package io.damo.kspec
 
 import org.junit.runner.RunWith
 
-@RunWith(JUnitClassRunner::class)
+@RunWith(JUnitKSpecClassRunner::class)
 open class Spec {
     var descriptions = arrayListOf<SpecDescription>()
         private set
