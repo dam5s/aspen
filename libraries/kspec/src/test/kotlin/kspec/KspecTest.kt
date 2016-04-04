@@ -1,11 +1,15 @@
 package kspec
 
+import io.damo.kspec.JUnitKSpecClassRunner
+import io.damo.kspec.Spec
+import io.damo.kspec.metatests.MetaTesting.executeRunner
 import kspec.examples.CompanyControllerSpec
 import kspec.examples.FocusedSpec
 import kspec.examples.PersonSpec
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 import org.junit.Test
+import kotlin.reflect.KClass
 
 class KspecTest {
 
@@ -47,3 +51,5 @@ class KspecTest {
         )))
     }
 }
+
+fun <T : Spec> runSpec(kClass: KClass<T>) = executeRunner(JUnitKSpecClassRunner(kClass.java))

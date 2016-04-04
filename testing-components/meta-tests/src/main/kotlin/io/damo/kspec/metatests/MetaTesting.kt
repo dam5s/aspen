@@ -1,22 +1,21 @@
-package kspec
+package io.damo.kspec.metatests
 
-import io.damo.kspec.JUnitKSpecClassRunner
-import io.damo.kspec.Spec
 import org.junit.runner.Description
+import org.junit.runner.Runner
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
 import org.junit.runner.notification.RunNotifier
 import java.util.*
-import kotlin.reflect.KClass
 
-fun <T : Spec> runSpec(kClass: KClass<T>): MemorizingRunListener {
-    val listener = MemorizingRunListener()
-    val notifier = RunNotifier().apply { addListener(listener) }
-    val runner = JUnitKSpecClassRunner(kClass.java)
+object MetaTesting {
+    fun executeRunner(runner: Runner): MemorizingRunListener {
+        val listener = MemorizingRunListener()
+        val notifier = RunNotifier().apply { addListener(listener) }
 
-    runner.run(notifier)
+        runner.run(notifier)
 
-    return listener
+        return listener
+    }
 }
 
 class MemorizingRunListener : RunListener() {
@@ -32,4 +31,3 @@ class MemorizingRunListener : RunListener() {
         failingTests.add(failure.description.displayName)
     }
 }
-

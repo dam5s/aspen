@@ -31,18 +31,23 @@ class JUnitDescriptionRunner<T>(
     }
 }
 
-class JUnitKSpecClassRunner<T>(val specificationClass: Class<T>) : ParentRunner<JUnitDescriptionRunner<T>>(specificationClass) {
+open class JUnitKSpecClassRunner<T: Spec>(val specificationClass: Class<T>) : ParentRunner<JUnitDescriptionRunner<T>>(specificationClass) {
     override fun getChildren(): MutableList<JUnitDescriptionRunner<T>> {
-        if (Spec::class.java.isAssignableFrom(specificationClass) && !specificationClass.isLocalClass) {
-            val spec = specificationClass.newInstance() as Spec
+        val spec = specificationClass.newInstance()
 
-            return spec.descriptions
-                .map { JUnitDescriptionRunner(specificationClass, it, spec.beforeBlock, spec.afterBlock) }
-                .toMutableList()
-        }
+        return spec.descriptions
+            .map { specDescription ->
 
-        return arrayListOf()
+                val beforeBlock = buildBeforeBlock(spec, specDescription)
+                val afterBlock = buildAfterBlock(spec, specDescription)
+
+                JUnitDescriptionRunner(specificationClass, specDescription, beforeBlock, afterBlock)
+            }
+            .toMutableList()
     }
+
+    open fun buildBeforeBlock(spec: T, specDescription: SpecDescription) = spec.beforeBlock
+    open fun buildAfterBlock(spec: T, specDescription: SpecDescription) = spec.afterBlock
 
     override fun runChild(child: JUnitDescriptionRunner<T>, notifier: RunNotifier) {
         junitAction(describeChild(child), notifier) {
