@@ -9,25 +9,30 @@ import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
 
 @SpringApplicationConfiguration(ExampleApplication::class)
-@WebIntegrationTest("server.port:9090")
+@WebIntegrationTest("server.port:0")
 class SpringApplicationSpec : SpringSpec({
+
+    val message: String = inject("myMessage")
+    val port = injectValue("local.server.port", Int::class)
 
     val client = OkHttpClient()
 
     describe("my API") {
         test("GET /hello") {
             val request = Request.Builder()
-                .url("http://localhost:9090/hello")
+                .url("http://localhost:$port/hello")
                 .build()
 
             val response = client.newCall(request).execute()
 
-            assertThat(response.body().string(), equalTo("{\"hello\":\"world\"}"))
+            val body = response.body().string()
+            assertThat(body, equalTo("{\"hello\":\"world\"}"))
+            assertThat(body, equalTo("{\"hello\":\"$message\"}"))
         }
 
         test("GET /world") {
             val request = Request.Builder()
-                .url("http://localhost:9090/world")
+                .url("http://localhost:$port/world")
                 .build()
 
             val response = client.newCall(request).execute()
