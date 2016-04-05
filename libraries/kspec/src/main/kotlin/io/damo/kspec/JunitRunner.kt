@@ -32,9 +32,10 @@ class JUnitDescriptionRunner<T>(
 }
 
 open class JUnitKSpecClassRunner<T: Spec>(val specificationClass: Class<T>) : ParentRunner<JUnitDescriptionRunner<T>>(specificationClass) {
-    override fun getChildren(): MutableList<JUnitDescriptionRunner<T>> {
-        val spec = specificationClass.newInstance()
 
+    val spec by lazy { specificationClass.newInstance() }
+
+    override fun getChildren(): MutableList<JUnitDescriptionRunner<T>> {
         return spec.descriptions
             .map { specDescription ->
 

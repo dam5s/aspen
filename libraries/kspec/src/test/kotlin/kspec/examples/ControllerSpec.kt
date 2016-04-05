@@ -21,7 +21,7 @@ class CompanyControllerSpec: Spec({
 
             val response = controller.create("Wayne Ent.")
 
-            assertThat(response, equalTo(Response(company, true)))
+            assertThat(response, equalTo(CompanyResponse(company, true)))
             verify(mockRepo).create("Wayne Ent.")
         }
 
@@ -30,19 +30,19 @@ class CompanyControllerSpec: Spec({
 
             val response = controller.create("Wayne Ent.")
 
-            assertThat(response, equalTo(Response(null as Company?, false)))
+            assertThat(response, equalTo(CompanyResponse(null as Company?, false)))
         }
     }
 })
 
 class CompanyController(val repository: CompanyRepository) {
-    fun create(companyName: String) = Response(repository.create(companyName), true)
+    fun create(companyName: String) = CompanyResponse(repository.create(companyName), true)
 }
 
 interface CompanyRepository {
     fun create(companyName: String): Company?
 }
 
-data class Response<T>(val value: T?, val success: Boolean)
+data class CompanyResponse<T>(val value: T?, val success: Boolean)
 
 data class Company(val name: String)

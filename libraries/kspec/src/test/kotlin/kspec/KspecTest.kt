@@ -3,6 +3,7 @@ package kspec
 import io.damo.kspec.JUnitKSpecClassRunner
 import io.damo.kspec.Spec
 import io.damo.kspec.metatests.MetaTesting.executeRunner
+import kspec.examples.BusinessControllerSpec
 import kspec.examples.CompanyControllerSpec
 import kspec.examples.FocusedSpec
 import kspec.examples.PersonSpec
@@ -16,6 +17,20 @@ class KspecTest {
     @Test
     fun testCompanyControllerSpec() {
         val listener = runSpec(CompanyControllerSpec::class)
+
+        assertThat(listener.tests, equalTo(listOf(
+            "unnamed test #1 (#create)",
+            "repository creation error (#create)"
+        )))
+
+        assertThat(listener.failingTests, equalTo(listOf(
+            "repository creation error (#create)"
+        )))
+    }
+
+    @Test
+    fun testBusinessControllerSpec() {
+        val listener = runSpec(BusinessControllerSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
             "unnamed test #1 (#create)",

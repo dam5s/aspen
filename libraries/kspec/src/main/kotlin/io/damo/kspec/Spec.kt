@@ -15,6 +15,9 @@ open class Spec {
         this.body()
     }
 
+    constructor() {
+    }
+
     fun before(block: () -> Unit) {
         beforeBlock = block
     }
