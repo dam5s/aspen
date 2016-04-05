@@ -34,6 +34,7 @@ open class SpringSpec : Spec {
     }
 
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> inject(name: String): T = appContext.getBean(name) as T
 
     fun <T> inject(javaClass: Class<T>): T = appContext.getBean(javaClass)
