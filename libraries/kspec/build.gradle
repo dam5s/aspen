@@ -1,54 +1,17 @@
-apply plugin: "com.jfrog.bintray"
-apply plugin: "maven"
-apply plugin: "maven-publish"
-
-test {
-    filter {
-        includeTestsMatching "*Test"
-    }
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives sourcesJar
-}
+apply from: "../../library.gradle"
 
 publishing {
     publications {
-        KSpecPublication(MavenPublication) {
+        KSpecSpringPublication(MavenPublication) {
             from components.java
             groupId "io.damo.kspec"
             artifactId "kspec"
-            version "1.0.1"
-
+            version kspecVersion
             artifact sourcesJar
         }
     }
 }
 
-
-def properties = new Properties()
-properties.load(project.rootProject.file("local.properties").newDataInputStream())
-
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    publications = ["KSpecPublication"]
-
-    pkg {
-        repo = "maven"
-        name = "kspec"
-        websiteUrl = "https://github.com/dam5s/kspec"
-        vcsUrl = "https://github.com/dam5s/kspec.git"
-        licenses = ["MIT"]
-
-        version {
-            name = "1.0.1"
-            desc = "Descriptive unit tests à la Rspec"
-        }
-    }
+    publications = ["KSpecSpringPublication"]
 }

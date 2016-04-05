@@ -12,8 +12,20 @@ dependencies {
     testCompile "com.squareup.okhttp3:okhttp:3.2.0"
 }
 
-test {
-    filter {
-        includeTestsMatching "*Test"
+apply from: "../../library.gradle"
+
+publishing {
+    publications {
+        KSpecSpringPublication(MavenPublication) {
+            from components.java
+            groupId "io.damo.kspec"
+            artifactId "kspec-spring"
+            version kspecVersion
+            artifact sourcesJar
+        }
     }
+}
+
+bintray {
+    publications = ["KSpecSpringPublication"]
 }
