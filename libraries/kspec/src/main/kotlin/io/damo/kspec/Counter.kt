@@ -1,7 +1,6 @@
 package io.damo.kspec
 
 
-class Counter {
-    private var unnamedTests = 0
-    internal fun nextUnnamedTestNumber() = ++unnamedTests
+data class Counter(var count: Int = 0) {
+    fun next() = ++count
 }

@@ -3,19 +3,21 @@ package io.damo.kspec
 import org.junit.runner.RunWith
 
 @RunWith(SpecTreeRunner::class)
-open class NestedSpec: SpecTree {
+open class NestedSpec : SpecTree {
 
     private val body: NestedSpec.() -> Unit
     private val branch: SpecBranch
-    private var unnamedTests = 0
+    private val unnamedTestCounter: Counter
 
     constructor(body: NestedSpec.() -> Unit) {
         this.branch = SpecBranch.createRoot()
+        this.unnamedTestCounter = Counter()
         this.body = body
     }
 
-    constructor(branch: SpecBranch) {
+    constructor(branch: SpecBranch, counter: Counter) {
         this.branch = branch
+        this.unnamedTestCounter = counter
         this.body = {}
     }
 
@@ -35,14 +37,14 @@ open class NestedSpec: SpecTree {
 
     fun describe(name: String, block: NestedSpec.() -> Unit) {
         val newBranch = branch.addChildBranch(name)
-        NestedSpec(newBranch).block()
+        NestedSpec(newBranch, unnamedTestCounter).block()
     }
 
-    fun test(name: String = "unnamed test #${++unnamedTests}", block: () -> Unit) {
+    fun test(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
         branch.addChildLeaf(name, block)
     }
 
-    fun ftest(name: String = "unnamed test #${++unnamedTests}", block: () -> Unit) {
+    fun ftest(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
         branch.addChildLeaf(name, block, focused = true)
     }
 }

@@ -46,7 +46,7 @@ class KspecTest {
         assertThat(listener.tests, equalTo(listOf(
             "unnamed test #1",
             "with a middle name",
-            "unnamed test #1"
+            "unnamed test #2"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
@@ -80,11 +80,11 @@ class KspecTest {
 
         assertThat(listener.tests, equalTo(listOf(
             "unnamed test #1",
-            "unnamed test #1",
             "unnamed test #2",
+            "unnamed test #3",
             "this test will fail in nested something",
-            "unnamed test #1",
-            "unnamed test #1",
+            "unnamed test #4",
+            "unnamed test #5",
             "this test will fail in something else"
         )))
 
