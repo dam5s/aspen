@@ -5,6 +5,11 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 import org.mockito.Mockito.*
 
+/**
+ * If you prefer having fields that get initialized in your #before,
+ * you can follow this example.
+ * Unfortunately you will need to describe your tests in the #init.
+ */
 class BusinessControllerSpec: Spec() {
 
     lateinit var mockRepo: BusinessRepository

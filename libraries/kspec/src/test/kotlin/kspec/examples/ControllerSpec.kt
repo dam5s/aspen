@@ -5,12 +5,19 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 import org.mockito.Mockito.*
 
+/**
+ * This example illustrates testing with mocks
+ * and stateless service type of objects.
+ */
 class CompanyControllerSpec: Spec({
 
+    // Beware here, these variables are only instantiated once for all the tests.
+    // You should avoid mutable/stateful variables here to prevent tests pollution.
     val mockRepo = mock(CompanyRepository::class.java)
     val controller = CompanyController(mockRepo)
 
     after {
+        // Ensure the mock is reset between tests
         reset(mockRepo)
     }
 
@@ -34,6 +41,8 @@ class CompanyControllerSpec: Spec({
         }
     }
 })
+
+
 
 class CompanyController(val repository: CompanyRepository) {
     fun create(companyName: String) = CompanyResponse(repository.create(companyName), true)

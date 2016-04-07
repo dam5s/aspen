@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 class KspecTest {
 
     @Test
-    fun testCompanyControllerSpec() {
+    fun testControllerSpec() {
         val listener = runSpec(CompanyControllerSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
@@ -26,7 +26,7 @@ class KspecTest {
     }
 
     @Test
-    fun testBusinessControllerSpec() {
+    fun testControllerSpecWithInit() {
         val listener = runSpec(BusinessControllerSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
@@ -40,7 +40,7 @@ class KspecTest {
     }
 
     @Test
-    fun testPersonSpec() {
+    fun testDomainModelSpec() {
         val listener = runSpec(PersonSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
@@ -55,7 +55,7 @@ class KspecTest {
     }
 
     @Test
-    fun testRunnableSpec() {
+    fun testTopLevelTestSpec() {
         val listener = runSpec(RunnableSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
@@ -91,6 +91,22 @@ class KspecTest {
         assertThat(listener.failingTests, equalTo(listOf(
             "this test will fail in nested something",
             "this test will fail in something else"
+        )))
+    }
+
+    @Test
+    fun testTableBasedSpec() {
+        val listener = runSpec(ReservationSpec::class)
+
+        assertThat(listener.tests, equalTo(listOf(
+            "when the status is OPEN",
+            "when the status is STARTED",
+            "when the status is BILLED",
+            "when the status is PAID",
+            "when the status is OPEN",
+            "when the status is STARTED",
+            "when the status is BILLED",
+            "when the status is PAID"
         )))
     }
 }

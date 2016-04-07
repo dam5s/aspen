@@ -5,6 +5,10 @@ import org.junit.Assert.assertThat
 import org.hamcrest.Matchers.equalTo
 
 
+/**
+ * If your class only has one function,
+ * you probably do not want to use a #describe block.
+ */
 class RunnableSpec: Spec({
     test {
         val runnable = MyRunnable()

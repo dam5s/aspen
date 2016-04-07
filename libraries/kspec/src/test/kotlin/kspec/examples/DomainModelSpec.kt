@@ -4,8 +4,11 @@ import io.damo.kspec.Spec
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 
-class PersonSpec : Spec({
 
+/**
+ * This is probably the most basic example.
+ */
+class PersonSpec : Spec({
     describe("#fullName") {
         test {
             val person = buildPerson(

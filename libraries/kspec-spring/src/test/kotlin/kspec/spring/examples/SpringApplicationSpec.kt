@@ -12,6 +12,14 @@ import org.junit.runner.RunWith
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
 
+/**
+ * This is a basic example, hitting the server and testing its response.
+ * In addition to inheriting from Spec, you will need to use the custom SpringSpecTreeRunner.
+ *
+ * You can inject Spring @Beans or @Components using #inject()
+ * You can inject @Value properties using #injectValue()
+ */
+
 @RunWith(SpringSpecTreeRunner::class)
 @SpringApplicationConfiguration(ExampleApplication::class)
 @WebIntegrationTest("server.port:0")
@@ -29,8 +37,8 @@ class SpringApplicationSpec : Spec({
         val response = client.newCall(request).execute()
 
         val body = response.body().string()
-        assertThat(body, equalTo("{\"hello\":\"world\"}"))
-        assertThat(body, equalTo("{\"hello\":\"$message\"}"))
+        assertThat(body, equalTo("""{"hello":"world"}"""))
+        assertThat(body, equalTo("""{"hello":"$message"}"""))
     }
 
     test("GET /world") {

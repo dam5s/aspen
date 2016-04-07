@@ -4,6 +4,10 @@ import io.damo.kspec.NestedSpec
 import org.junit.Assert.assertThat
 import org.hamcrest.Matchers.equalTo
 
+/**
+ * We do not want to encourage nesting tests like this,
+ * but the NestedSpec is a good example of how you can write your own DSL for KSpec.
+ */
 class NestedSpecExample: NestedSpec({
 
     var someString = ""
