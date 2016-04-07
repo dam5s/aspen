@@ -1,8 +1,8 @@
 package kspec.spring
 
+import io.damo.kspec.Spec
 import io.damo.kspec.metatests.MetaTesting.executeRunner
-import io.damo.kspec.spring.SpringKSpecClassRunner
-import io.damo.kspec.spring.SpringSpec
+import io.damo.kspec.spring.SpringSpecTreeRunner
 import kspec.spring.examples.SpringApplicationSpec
 import kspec.spring.examples.SpringApplicationSpecUsingInit
 import org.hamcrest.Matchers.equalTo
@@ -17,12 +17,12 @@ class SpringKspecTest {
         val listener = runSpringSpec(SpringApplicationSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "GET /hello (my API)",
-            "GET /world (my API)"
+            "GET /hello",
+            "GET /world"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "GET /world (my API)"
+            "GET /world"
         )))
     }
 
@@ -31,14 +31,14 @@ class SpringKspecTest {
         val listener = runSpringSpec(SpringApplicationSpecUsingInit::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "GET /hello (my API)",
-            "GET /world (my API)"
+            "GET /hello",
+            "GET /world"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "GET /world (my API)"
+            "GET /world"
         )))
     }
 }
 
-fun <T : SpringSpec> runSpringSpec(kClass: KClass<T>) = executeRunner(SpringKSpecClassRunner(kClass.java))
+fun <T : Spec> runSpringSpec(kClass: KClass<T>) = executeRunner(SpringSpecTreeRunner(kClass.java))

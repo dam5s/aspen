@@ -1,18 +1,21 @@
 package kspec.spring.examples
 
-import io.damo.kspec.spring.SpringSpec
+import io.damo.kspec.Spec
+import io.damo.kspec.spring.SpringSpecTreeRunner
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
+import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
 
+@RunWith(SpringSpecTreeRunner::class)
 @SpringApplicationConfiguration(ExampleApplication::class)
 @WebIntegrationTest("server.port:0")
-class SpringApplicationSpecUsingInit : SpringSpec() {
+class SpringApplicationSpecUsingInit : Spec() {
 
     @Value("\${local.server.port}")
     var port = 0

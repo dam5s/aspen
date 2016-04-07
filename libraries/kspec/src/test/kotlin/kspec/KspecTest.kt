@@ -1,12 +1,11 @@
 package kspec
 
-import io.damo.kspec.JUnitKSpecClassRunner
+import io.damo.kspec.SpecTreeRunner
+import io.damo.kspec.SpecTree
+import io.damo.kspec.NestedSpec
 import io.damo.kspec.Spec
 import io.damo.kspec.metatests.MetaTesting.executeRunner
-import kspec.examples.BusinessControllerSpec
-import kspec.examples.CompanyControllerSpec
-import kspec.examples.FocusedSpec
-import kspec.examples.PersonSpec
+import kspec.examples.*
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 import org.junit.Test
@@ -19,12 +18,12 @@ class KspecTest {
         val listener = runSpec(CompanyControllerSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "unnamed test #1 (#create)",
-            "repository creation error (#create)"
+            "unnamed test #1",
+            "repository creation error"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "repository creation error (#create)"
+            "repository creation error"
         )))
     }
 
@@ -33,12 +32,12 @@ class KspecTest {
         val listener = runSpec(BusinessControllerSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "unnamed test #1 (#create)",
-            "repository creation error (#create)"
+            "unnamed test #1",
+            "repository creation error"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "repository creation error (#create)"
+            "repository creation error"
         )))
     }
 
@@ -47,13 +46,13 @@ class KspecTest {
         val listener = runSpec(PersonSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "unnamed test #1 (#fullName)",
-            "with a middle name (#fullName)",
-            "unnamed test #1 (#greeting)"
+            "unnamed test #1",
+            "with a middle name",
+            "unnamed test #1"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "with a middle name (#fullName)"
+            "with a middle name"
         )))
     }
 
@@ -62,9 +61,29 @@ class KspecTest {
         val listener = runSpec(FocusedSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "focused (#something)"
+            "focused"
+        )))
+    }
+
+    @Test
+    fun testNestedSpec() {
+        val listener = runSpec(NestedSpecExample::class)
+
+        assertThat(listener.tests, equalTo(listOf(
+            "unnamed test #1",
+            "unnamed test #1",
+            "unnamed test #2",
+            "this test will fail in nested something",
+            "unnamed test #1",
+            "unnamed test #1",
+            "this test will fail in something else"
+        )))
+
+        assertThat(listener.failingTests, equalTo(listOf(
+            "this test will fail in nested something",
+            "this test will fail in something else"
         )))
     }
 }
 
-fun <T : Spec> runSpec(kClass: KClass<T>) = executeRunner(JUnitKSpecClassRunner(kClass.java))
+fun <T : SpecTree> runSpec(kClass: KClass<T>) = executeRunner(SpecTreeRunner(kClass.java))
