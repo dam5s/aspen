@@ -6,8 +6,7 @@ interface SpecTree {
     fun readSpecBody()
 }
 
-open class SpecTreeNode {
-
+abstract class SpecTreeNode {
     companion object {
         private var currentId: Long = 0
         fun nextId() = currentId++
@@ -31,11 +30,7 @@ open class SpecTreeNode {
 
     fun isRoot() = (parent == null)
 
-    open fun isFocused(): Boolean {
-        return children.any {
-            it.isFocused()
-        }
-    }
+    abstract fun isFocused(): Boolean
 }
 
 class SpecBranch : SpecTreeNode {
@@ -56,6 +51,12 @@ class SpecBranch : SpecTreeNode {
 
         this.before = before
         this.after = after
+    }
+
+    override fun isFocused(): Boolean {
+        return children.any {
+            it.isFocused()
+        }
     }
 
     fun addChildBranch(name: String): SpecBranch {
