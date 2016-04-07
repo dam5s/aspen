@@ -26,28 +26,26 @@ class SpringApplicationSpecUsingInit : Spec() {
     init {
         val client = OkHttpClient()
 
-        describe("my API") {
-            test("GET /hello") {
-                val request = Request.Builder()
-                    .url("http://localhost:$port/hello")
-                    .build()
+        test("GET /hello") {
+            val request = Request.Builder()
+                .url("http://localhost:$port/hello")
+                .build()
 
-                val response = client.newCall(request).execute()
+            val response = client.newCall(request).execute()
 
-                val body = response.body().string()
-                assertThat(body, equalTo("{\"hello\":\"world\"}"))
-                assertThat(body, equalTo("{\"hello\":\"$message\"}"))
-            }
+            val body = response.body().string()
+            assertThat(body, equalTo("{\"hello\":\"world\"}"))
+            assertThat(body, equalTo("{\"hello\":\"$message\"}"))
+        }
 
-            test("GET /world") {
-                val request = Request.Builder()
-                    .url("http://localhost:$port/world")
-                    .build()
+        test("GET /world") {
+            val request = Request.Builder()
+                .url("http://localhost:$port/world")
+                .build()
 
-                val response = client.newCall(request).execute()
+            val response = client.newCall(request).execute()
 
-                assertThat(response.code(), equalTo(200))
-            }
+            assertThat(response.code(), equalTo(200))
         }
     }
 }
