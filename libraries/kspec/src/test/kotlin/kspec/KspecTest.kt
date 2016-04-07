@@ -2,8 +2,6 @@ package kspec
 
 import io.damo.kspec.SpecTreeRunner
 import io.damo.kspec.SpecTree
-import io.damo.kspec.NestedSpec
-import io.damo.kspec.Spec
 import io.damo.kspec.metatests.MetaTesting.executeRunner
 import kspec.examples.*
 import org.hamcrest.Matchers.equalTo
