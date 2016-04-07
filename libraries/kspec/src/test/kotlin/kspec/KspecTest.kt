@@ -55,6 +55,17 @@ class KspecTest {
     }
 
     @Test
+    fun testRunnableSpec() {
+        val listener = runSpec(RunnableSpec::class)
+
+        assertThat(listener.tests, equalTo(listOf(
+            "unnamed test #1"
+        )))
+
+        assertThat(listener.failingTests.isEmpty(), equalTo(true))
+    }
+
+    @Test
     fun testFocusedSpec() {
         val listener = runSpec(FocusedSpec::class)
 

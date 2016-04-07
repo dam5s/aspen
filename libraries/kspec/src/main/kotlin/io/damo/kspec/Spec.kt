@@ -34,6 +34,16 @@ open class Spec: SpecTree {
         val newBranch = root.addChildBranch(name)
         SpecDescription(newBranch).block()
     }
+
+    private var unnamedTests = 0
+
+    fun test(name: String = "unnamed test #${++unnamedTests}", block: () -> Unit) {
+        root.addChildLeaf(name, block)
+    }
+
+    fun ftest(name: String = "unnamed test #${++unnamedTests}", block: () -> Unit) {
+        root.addChildLeaf(name, block, focused = true)
+    }
 }
 
 class SpecDescription(private var branch: SpecBranch) {
