@@ -1,3 +1,4 @@
+apply from: "../../kotlin.gradle"
 apply from: "../../library.gradle"
 
 publishing {

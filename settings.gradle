@@ -1,5 +1,6 @@
 rootProject.name="kspec"
 
-include "libraries/kspec"
-include "libraries/kspec-spring"
-include "components/meta-tests"
+include ":libraries:kspec"
+include ":libraries:kspec-spring"
+
+include ":components:meta-tests"
