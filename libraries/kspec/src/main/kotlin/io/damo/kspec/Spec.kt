@@ -1,6 +1,9 @@
 package io.damo.kspec
 
+import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.runner.RunWith
+import kotlin.reflect.KClass
 
 @RunWith(SpecTreeRunner::class)
 open class Spec : SpecTree {
@@ -36,7 +39,6 @@ open class Spec : SpecTree {
         val newBranch = root.addChildBranch(name)
         SpecDescription(newBranch, unnamedTestCounter).block()
     }
-
 
     fun test(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
         root.addChildLeaf(name, block)

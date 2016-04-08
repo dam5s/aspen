@@ -109,6 +109,25 @@ class KspecTest {
             "when the status is PAID"
         )))
     }
+
+    @Test
+    fun testExpectedExceptionSpec() {
+        val listener = runSpec(ExceptionThrowingServiceSpec::class)
+
+        assertThat(listener.tests, equalTo(listOf(
+            "with correct class and message",
+            "with correct class, no message",
+            "with correct parent class",
+            "with correct message",
+            "with incorrect class",
+            "with incorrect message"
+        )))
+
+        assertThat(listener.failingTests, equalTo(listOf(
+            "with incorrect class",
+            "with incorrect message"
+        )))
+    }
 }
 
 fun <T : SpecTree> runSpec(kClass: KClass<T>) = executeRunner(SpecTreeRunner(kClass.java))
