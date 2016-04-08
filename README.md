@@ -109,3 +109,7 @@ You will find actually up-to-date examples that are part of our test suite in th
 
  * [Plain Java](https://github.com/dam5s/kspec/tree/master/libraries/kspec/src/test/kotlin/kspec/examples)
  * [Spring Application](https://github.com/dam5s/kspec/tree/master/libraries/kspec-spring/src/test/kotlin/kspec/spring/examples)
+
+## What's next?
+
+We have a Pivotal Tracker project, [see for yourself](https://www.pivotaltracker.com/n/projects/1559513)
