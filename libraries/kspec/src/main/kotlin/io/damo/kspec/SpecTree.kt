@@ -83,4 +83,27 @@ class SpecLeaf : SpecTreeNode {
     }
 
     override fun isFocused() = focused
+
+    fun collectBeforesAndAfters(): Hooks {
+        val befores = arrayListOf<() -> Unit>()
+        val afters = arrayListOf<() -> Unit>()
+        var currentNode = parent
+
+        while (currentNode != null) {
+            currentNode.before?.let {
+                befores.add(it)
+            }
+            currentNode.after?.let {
+                afters.add(it)
+            }
+            currentNode = currentNode.parent
+        }
+
+        return Hooks(befores.reversed(), afters)
+    }
 }
+
+data class Hooks(
+    val befores: List<() -> Unit>,
+    val afters: List<() -> Unit>
+)

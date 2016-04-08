@@ -121,6 +121,7 @@ class SpecBranchRunner<T : SpecTree> : SpecTreeNodeRunner, ParentRunner<SpecTree
     }
 }
 
+
 class SpecLeafRunner(val specLeaf: SpecLeaf) : SpecTreeNodeRunner {
 
     override fun getDescription(): Description {
@@ -128,7 +129,7 @@ class SpecLeafRunner(val specLeaf: SpecLeaf) : SpecTreeNodeRunner {
     }
 
     override fun run(notifier: RunNotifier) {
-        val (befores, afters) = collectBeforeAndAfterHooks()
+        val (befores, afters) = specLeaf.collectBeforesAndAfters()
         val errors = ArrayList<Throwable>()
 
         try {
@@ -148,24 +149,6 @@ class SpecLeafRunner(val specLeaf: SpecLeaf) : SpecTreeNodeRunner {
 
             MultipleFailureException.assertEmpty(errors)
         }
-    }
-
-    private fun collectBeforeAndAfterHooks(): Pair<List<() -> Unit>, List<() -> Unit>> {
-        val befores = arrayListOf<() -> Unit>()
-        val afters = arrayListOf<() -> Unit>()
-        var currentNode = specLeaf.parent
-
-        while (currentNode != null) {
-            currentNode.before?.let {
-                befores.add(it)
-            }
-            currentNode.after?.let {
-                afters.add(it)
-            }
-            currentNode = currentNode.parent
-        }
-
-        return befores.reversed() to afters
     }
 }
 
