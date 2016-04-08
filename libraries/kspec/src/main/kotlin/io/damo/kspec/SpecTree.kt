@@ -101,6 +101,17 @@ class SpecLeaf : SpecTreeNode {
 
         return Hooks(befores.reversed(), afters)
     }
+
+    val testName: String
+        get() {
+            val parentName = parent?.name ?: ""
+
+            if (parentName.isEmpty()) {
+                return name
+            } else {
+                return "$name ($parentName)"
+            }
+        }
 }
 
 data class Hooks(

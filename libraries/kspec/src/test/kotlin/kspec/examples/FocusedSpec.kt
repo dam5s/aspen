@@ -18,4 +18,10 @@ class FocusedSpec : Spec({
 
         }
     }
+
+    describe("#somethingElse") {
+        ftest("focused too") {
+
+        }
+    }
 })

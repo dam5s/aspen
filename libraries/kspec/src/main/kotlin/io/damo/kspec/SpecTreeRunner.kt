@@ -125,7 +125,7 @@ class SpecBranchRunner<T : SpecTree> : SpecTreeNodeRunner, ParentRunner<SpecTree
 class SpecLeafRunner(val specLeaf: SpecLeaf) : SpecTreeNodeRunner {
 
     override fun getDescription(): Description {
-        return createSuiteDescription(specLeaf.name, specLeaf.id)!!
+        return createSuiteDescription(specLeaf.testName, specLeaf.id)!!
     }
 
     override fun run(notifier: RunNotifier) {

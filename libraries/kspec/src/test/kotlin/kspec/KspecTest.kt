@@ -16,12 +16,12 @@ class KspecTest {
         val listener = runSpec(CompanyControllerSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "unnamed test #1",
-            "repository creation error"
+            "unnamed test #1 (#create)",
+            "repository creation error (#create)"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "repository creation error"
+            "repository creation error (#create)"
         )))
     }
 
@@ -30,12 +30,12 @@ class KspecTest {
         val listener = runSpec(BusinessControllerSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "unnamed test #1",
-            "repository creation error"
+            "unnamed test #1 (#create)",
+            "repository creation error (#create)"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "repository creation error"
+            "repository creation error (#create)"
         )))
     }
 
@@ -44,13 +44,13 @@ class KspecTest {
         val listener = runSpec(PersonSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "unnamed test #1",
-            "with a middle name",
-            "unnamed test #2"
+            "unnamed test #1 (#fullName)",
+            "with a middle name (#fullName)",
+            "unnamed test #2 (#greeting)"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "with a middle name"
+            "with a middle name (#fullName)"
         )))
     }
 
@@ -70,7 +70,11 @@ class KspecTest {
         val listener = runSpec(FocusedSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "focused"
+            "focused (#something)",
+            "focused too (#somethingElse)"
+        )))
+
+        assertThat(listener.failingTests, equalTo(arrayListOf(
         )))
     }
 
@@ -79,18 +83,18 @@ class KspecTest {
         val listener = runSpec(NestedSpecExample::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "unnamed test #1",
-            "unnamed test #2",
-            "unnamed test #3",
-            "this test will fail in nested something",
-            "unnamed test #4",
-            "unnamed test #5",
-            "this test will fail in something else"
+            "unnamed test #1 (something)",
+            "unnamed test #2 (nested something)",
+            "unnamed test #3 (nested something)",
+            "this test will fail in nested something (nested something)",
+            "unnamed test #4 (nested something else)",
+            "unnamed test #5 (something else)",
+            "this test will fail in something else (something else)"
         )))
 
         assertThat(listener.failingTests, equalTo(listOf(
-            "this test will fail in nested something",
-            "this test will fail in something else"
+            "this test will fail in nested something (nested something)",
+            "this test will fail in something else (something else)"
         )))
     }
 
@@ -99,14 +103,17 @@ class KspecTest {
         val listener = runSpec(ReservationSpec::class)
 
         assertThat(listener.tests, equalTo(listOf(
-            "when the status is OPEN",
-            "when the status is STARTED",
-            "when the status is BILLED",
-            "when the status is PAID",
-            "when the status is OPEN",
-            "when the status is STARTED",
-            "when the status is BILLED",
-            "when the status is PAID"
+            "when the status is OPEN (#amount - table based)",
+            "when the status is STARTED (#amount - table based)",
+            "when the status is BILLED (#amount - table based)",
+            "when the status is PAID (#amount - table based)",
+            "when the status is OPEN (#amount - map based)",
+            "when the status is STARTED (#amount - map based)",
+            "when the status is BILLED (#amount - map based)",
+            "when the status is PAID (#amount - map based)"
+        )))
+
+        assertThat(listener.failingTests, equalTo(arrayListOf(
         )))
     }
 
