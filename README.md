@@ -3,6 +3,27 @@
 KSpec is a JUnit runner for Kotlin. It's inspired by Ruby's RSpec syntax,
 but it has a lot more restrictions and some features have been purposefully omitted.
 
+## Gradle usage
+
+KSpec
+
+```
+testCompile "io.damo.kspec:kspec:1.2.0"
+```
+
+KSpec Spring
+
+```
+testCompile "io.damo.kspec:kspec-spring:1.2.0"
+```
+
+You will need to use jCenter maven repository
+```
+repositories {
+    jcenter()
+}
+```
+
 ## Example
 
 If you were to use Hamcrest for assertions.
