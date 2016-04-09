@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kspecVersion = "1.2.0"
+        kspecVersion = "1.2.1"
         kotlinVersion = "1.0.1-2"
     }
 
