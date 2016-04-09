@@ -8,6 +8,7 @@ ext {
 dependencies {
     compile "org.springframework:spring-test:$springVersion"
     compile "org.springframework:spring-context:$springVersion"
+    compile "javax.transaction:javax.transaction-api:1.2"
     compile project(":libraries:kspec")
 
     testCompile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"

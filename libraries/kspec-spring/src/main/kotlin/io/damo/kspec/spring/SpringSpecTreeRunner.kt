@@ -18,8 +18,15 @@ open class SpringSpecTreeRunner<T : SpecTree>(specificationClass: Class<T>) : Sp
 
 
     private val testContextManager = KSpecTestContextManager(specificationClass)
-    private val testMethod = Spec::class.java.methods[0]
-    // This is a Hack to make TestContextManager happy. We do not run test Methods.
+
+    /**
+     * This is a Hack to make TestContextManager happy. We do not run test Methods.
+     * This is made open in order to deal with runners that will inspect annotations
+     * on the given method or its class.
+     *
+     * @see SpringTransactionalSpecTreeRunner
+     */
+    open val testMethod = Spec::class.java.methods[0]
 
     override fun run(notifier: RunNotifier?) {
         testContextManager.beforeTestClass()
@@ -32,14 +39,18 @@ open class SpringSpecTreeRunner<T : SpecTree>(specificationClass: Class<T>) : Sp
     }
 
     override fun buildChildren(): MutableList<SpecTreeNodeRunner> {
+        // This is where we expect the SpecTree instance to be initialized and memoized.
+        SpringSpecTreeRunner.appContexts.put(specTree, testContextManager.applicationContext)
+
+        // The SpecTree is built by reading the body at that point.
+        val children = super.buildChildren()
+
+        // So we can now decorate the root.
         val root = specTree.getRoot()
         root.before = decorateBeforeBlock(root.before)
         root.after = decorateAfterBlock(root.after)
 
-        // This is where we expect spec to be initialized and memoized.
-        appContexts.put(specTree, testContextManager.applicationContext)
-
-        return super.buildChildren()
+        return children
     }
 
     private fun decorateBeforeBlock(originalBeforeBlock: (() -> Unit)?): (() -> Unit)? {
