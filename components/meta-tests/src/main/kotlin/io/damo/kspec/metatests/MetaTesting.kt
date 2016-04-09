@@ -7,15 +7,13 @@ import org.junit.runner.notification.RunListener
 import org.junit.runner.notification.RunNotifier
 import java.util.*
 
-object MetaTesting {
-    fun executeRunner(runner: Runner): MemorizingRunListener {
-        val listener = MemorizingRunListener()
-        val notifier = RunNotifier().apply { addListener(listener) }
+fun executeRunner(runner: Runner): MemorizingRunListener {
+    val listener = MemorizingRunListener()
+    val notifier = RunNotifier().apply { addListener(listener) }
 
-        runner.run(notifier)
+    runner.run(notifier)
 
-        return listener
-    }
+    return listener
 }
 
 class MemorizingRunListener : RunListener() {

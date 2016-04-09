@@ -2,7 +2,7 @@ package kspec
 
 import io.damo.kspec.SpecTreeRunner
 import io.damo.kspec.SpecTree
-import io.damo.kspec.metatests.MetaTesting.executeRunner
+import io.damo.kspec.metatests.executeRunner
 import kspec.examples.*
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat

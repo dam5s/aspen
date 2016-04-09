@@ -1,7 +1,7 @@
 package kspec.spring
 
 import io.damo.kspec.Spec
-import io.damo.kspec.metatests.MetaTesting.executeRunner
+import io.damo.kspec.metatests.executeRunner
 import io.damo.kspec.spring.SpringSpecTreeRunner
 import kspec.spring.examples.SpringApplicationSpec
 import kspec.spring.examples.SpringApplicationSpecUsingInit

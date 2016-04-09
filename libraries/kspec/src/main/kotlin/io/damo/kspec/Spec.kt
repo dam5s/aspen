@@ -1,9 +1,6 @@
 package io.damo.kspec
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
 import org.junit.runner.RunWith
-import kotlin.reflect.KClass
 
 @RunWith(SpecTreeRunner::class)
 open class Spec : SpecTree {
