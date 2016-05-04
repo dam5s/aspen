@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/dam5s/maven/kspec/images/download.svg) ](https://bintray.com/dam5s/maven/kspec/_latestVersion)
+
 # KSpec
 
 KSpec is a JUnit runner for Kotlin. It's inspired by Ruby's RSpec syntax,
@@ -8,13 +10,13 @@ but it has a lot more restrictions and some features have been purposefully omit
 KSpec
 
 ```
-testCompile "io.damo.kspec:kspec:1.2.0"
+testCompile "io.damo.kspec:kspec:<version>"
 ```
 
 KSpec Spring
 
 ```
-testCompile "io.damo.kspec:kspec-spring:1.2.0"
+testCompile "io.damo.kspec:kspec-spring:<version>"
 ```
 
 You will need to use jCenter maven repository
