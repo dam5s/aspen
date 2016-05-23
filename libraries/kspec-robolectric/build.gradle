@@ -1,0 +1,15 @@
+apply from: "../../kotlin.gradle"
+apply from: "../../library.gradle"
+
+dependencies {
+    compile project(":libraries:kspec")
+
+
+    def robolectricPath = "$rootProject.projectDir/vendor/robolectric"
+    compile fileTree(dir: robolectricPath, include: ['*/target/*.jar'])
+    compile fileTree(dir: "$robolectricPath/robolectric-shadows/shadows-core", include: ['dist/*.jar'])
+}   
+
+task listJars << {
+    configurations.compile.each { File file -> println file.name }
+}

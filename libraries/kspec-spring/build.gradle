@@ -6,10 +6,10 @@ ext {
 }
 
 dependencies {
+    compile project(":libraries:kspec")
     compile "org.springframework:spring-test:$springVersion"
     compile "org.springframework:spring-context:$springVersion"
     compile "javax.transaction:javax.transaction-api:1.2"
-    compile project(":libraries:kspec")
 
     testCompile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     testCompile "com.squareup.okhttp3:okhttp:3.2.0"
