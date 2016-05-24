@@ -54,6 +54,11 @@ class RobolectricHelper extends RobolectricGradleTestRunner {
     }
 
     @Override
+    public void configureShadows(SdkEnvironment sdkEnvironment, Config config) {
+        super.configureShadows(sdkEnvironment, config);
+    }
+
+    @Override
     public Statement methodBlock(FrameworkMethod method, Config config, AndroidManifest appManifest, SdkEnvironment sdkEnvironment) {
         return super.methodBlock(method, config, appManifest, sdkEnvironment);
     }
