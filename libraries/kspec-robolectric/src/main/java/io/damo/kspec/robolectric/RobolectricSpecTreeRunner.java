@@ -73,7 +73,7 @@ public class RobolectricSpecTreeRunner<T extends SpecTree> extends SpecTreeRunne
             Object runFocusedOnly = isFocusedMethod.invoke(root);
 
             SpecTreeNodeRunner roboBranchRunner = (SpecTreeNodeRunner) roboSpecBranchRunnerClassConstructor.newInstance(
-                this,
+                this, // this is not the right type, as it's in a different class loader
                 roboSpecTreeClass,
                 root,
                 runFocusedOnly
