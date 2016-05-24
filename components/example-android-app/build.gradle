@@ -6,7 +6,7 @@ dependencies {
 
     def robolectricPath = "$rootProject.projectDir/vendor/robolectric"
     testCompile fileTree(dir: robolectricPath, include: ['*/target/*.jar'])
-    testCompile fileTree(dir: "$robolectricPath/robolectric-shadows/shadows-core", include: ['dist/*.jar'])
+    testCompile files("$robolectricPath/robolectric-shadows/shadows-core/dist/shadows-core-3.1-SNAPSHOT.jar")
 
     testCompile "org.ow2.asm:asm:5.0.1"
     testCompile "org.ow2.asm:asm-commons:5.0.1"

@@ -37,10 +37,12 @@ open class SpecTreeRunner<T : SpecTree> : ParentRunner<SpecTreeNodeRunner> {
 
         val root = specTree.getRoot()
         val runFocusedOnly = root.isFocused()
-        val rootBranchRunner = SpecBranchRunner(specTreeClass, root, runFocusedOnly)
+        val rootBranchRunner = buildRootBranchRunner(root, runFocusedOnly)
 
         return arrayListOf(rootBranchRunner)
     }
+
+    open fun buildRootBranchRunner(root: SpecBranch, runFocusedOnly: Boolean) = SpecBranchRunner(specTreeClass, root, runFocusedOnly)
 }
 
 
@@ -50,18 +52,18 @@ interface SpecTreeNodeRunner {
 }
 
 
-class SpecBranchRunner<T : SpecTree> : SpecTreeNodeRunner, ParentRunner<SpecTreeNodeRunner> {
+open class SpecBranchRunner<T : SpecTree> : SpecTreeNodeRunner, ParentRunner<SpecTreeNodeRunner> {
 
-    val specTreeNode: SpecTreeNode
+    val specBranch: SpecBranch
     val specTreeClass: Class<T>
     val runFocusedOnly: Boolean
 
     private val description: Description
     private val children: MutableList<SpecTreeNodeRunner>
 
-    constructor(specTreeClass: Class<T>, specTreeNode: SpecTreeNode, runFocusedOnly: Boolean) : super(specTreeClass) {
+    constructor(specTreeClass: Class<T>, specBranch: SpecBranch, runFocusedOnly: Boolean) : super(specTreeClass) {
         this.specTreeClass = specTreeClass
-        this.specTreeNode = specTreeNode
+        this.specBranch = specBranch
         this.runFocusedOnly = runFocusedOnly
 
         this.children = buildChildren()
@@ -69,10 +71,10 @@ class SpecBranchRunner<T : SpecTree> : SpecTreeNodeRunner, ParentRunner<SpecTree
     }
 
     override fun getName(): String {
-        if (specTreeNode.isRoot())
+        if (specBranch.isRoot())
             return super.getName()
 
-        return specTreeNode.name
+        return specBranch.name
     }
 
     override fun getChildren() = children
@@ -90,16 +92,21 @@ class SpecBranchRunner<T : SpecTree> : SpecTreeNodeRunner, ParentRunner<SpecTree
     private fun buildChildren(): MutableList<SpecTreeNodeRunner> {
         return getFilteredNodeChildren().map {
             when (it) {
-                is SpecBranch -> SpecBranchRunner(specTreeClass, it, runFocusedOnly)
-                is SpecLeaf -> SpecLeafRunner(it)
+                is SpecBranch -> buildBranchRunner(it)
+                is SpecLeaf -> buildLeafRunner(it)
                 else -> throw RuntimeException("Encountered unexpected SpecTreeNode type $it")
             }
 
         }.toMutableList()
     }
 
+    open fun buildLeafRunner(leaf: SpecLeaf) = SpecLeafRunner(leaf)
+
+    open fun buildBranchRunner(branch: SpecBranch) = SpecBranchRunner(specTreeClass, branch, runFocusedOnly)
+
+
     private fun getFilteredNodeChildren(): Collection<SpecTreeNode> {
-        var nodeChildren: Collection<SpecTreeNode> = specTreeNode.children
+        var nodeChildren: Collection<SpecTreeNode> = specBranch.children
 
         if (runFocusedOnly) {
             nodeChildren = nodeChildren.filter { it.isFocused() }
@@ -109,10 +116,10 @@ class SpecBranchRunner<T : SpecTree> : SpecTreeNodeRunner, ParentRunner<SpecTree
     }
 
     private fun buildDescription(): Description {
-        if (specTreeNode.isRoot())
+        if (specBranch.isRoot())
             return super.getDescription()
 
-        val desc = createSuiteDescription(name, specTreeNode.id)!!
+        val desc = createSuiteDescription(name, specBranch.id)!!
         children.forEach {
             desc.addChild(describeChild(it))
         }

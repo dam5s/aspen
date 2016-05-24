@@ -5,7 +5,6 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.internal.SdkEnvironment;
 import org.robolectric.internal.dependency.DependencyResolver;
@@ -82,6 +81,12 @@ class RobolectricHelper extends RobolectricGradleTestRunner {
     protected HelperTestRunner getHelperTestRunner(Class bootstrappedTestClass) {
         try {
             return new HelperTestRunner(bootstrappedTestClass) {
+
+                @Override
+                protected void collectInitializationErrors(List<Throwable> errors) {
+                    // do not validate
+                }
+
                 @Override
                 public Statement methodBlock(FrameworkMethod method) {
                     final SpecLeafRunnerFrameworkMethod specLeafMethod = (SpecLeafRunnerFrameworkMethod) method;
@@ -90,7 +95,7 @@ class RobolectricHelper extends RobolectricGradleTestRunner {
                         @Override
                         public void evaluate() throws Throwable {
                             RunNotifier notifier = new RunNotifier();
-                            specLeafMethod.getRunner().run(notifier);
+                            specLeafMethod.runner.run(notifier);
                         }
                     };
                 }
