@@ -32,9 +32,9 @@ open class Test : TestTree {
         root.after = block
     }
 
-    fun describe(name: String, block: SpecDescription.() -> Unit) {
+    fun describe(name: String, block: TestDescription.() -> Unit) {
         val newBranch = root.addChildBranch(name)
-        SpecDescription(newBranch, unnamedTestCounter).block()
+        TestDescription(newBranch, unnamedTestCounter).block()
     }
 
     fun test(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
@@ -46,7 +46,7 @@ open class Test : TestTree {
     }
 }
 
-class SpecDescription(private val branch: TestBranch, private val unnamedTestCounter: Counter) {
+class TestDescription(private val branch: TestBranch, private val unnamedTestCounter: Counter) {
     fun test(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
         branch.addChildLeaf(name, block)
     }

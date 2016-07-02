@@ -6,7 +6,7 @@ import org.junit.Assert.assertThat
 
 /**
  * We do not want to encourage nesting tests like this,
- * but the NestedTest is a good example of how you can write your own DSL for KSpec.
+ * but the NestedTest is a good example of how you can write your own DSL for Aspen.
  */
 class NestedTestExample : NestedTest({
 
