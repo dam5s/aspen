@@ -1,6 +1,6 @@
-rootProject.name="kspec"
+rootProject.name = "aspen"
 
-include ":libraries:kspec"
-include ":libraries:kspec-spring"
+include ":libraries:aspen"
+include ":libraries:aspen-spring"
 
 include ":components:meta-tests"

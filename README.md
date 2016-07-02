@@ -1,22 +1,22 @@
-[ ![Download](https://api.bintray.com/packages/dam5s/maven/kspec/images/download.svg) ](https://bintray.com/dam5s/maven/kspec/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/dam5s/maven/aspen/images/download.svg) ](https://bintray.com/dam5s/maven/aspen/_latestVersion)
 
-# KSpec
+# Aspen
 
-KSpec is a JUnit runner for Kotlin. It's inspired by Ruby's RSpec syntax,
+Aspen is a JUnit runner for Kotlin. It's inspired by Ruby's RSpec syntax,
 but it has a lot more restrictions and some features have been purposefully omitted.
 
 ## Gradle usage
 
-KSpec
+Aspen
 
 ```
-testCompile "io.damo.kspec:kspec:<version>"
+testCompile "io.damo.aspen:aspen:<version>"
 ```
 
-KSpec Spring
+Aspen Spring
 
 ```
-testCompile "io.damo.kspec:kspec-spring:<version>"
+testCompile "io.damo.aspen:aspen-spring:<version>"
 ```
 
 You will need to use jCenter maven repository
@@ -31,7 +31,7 @@ repositories {
 If you were to use Hamcrest for assertions.
 
 ```
-class CompanyControllerSpec: Spec({
+class CompanyControllerTest: Test({
 
     val mockRepo = mock(CompanyRepository::class.java)
     val controller = CompanyController(mockRepo)
@@ -43,7 +43,7 @@ class CompanyControllerSpec: Spec({
     describe("#create") {
         test {
             val company = Company(name = "Wayne Enterprises")
-            doReturn(company).`when`(mockRepo).create(anyString())
+            doReturn(company).upon(mockRepo).create(any())
 
             val response = controller.create("Wayne Ent.")
 
@@ -52,7 +52,7 @@ class CompanyControllerSpec: Spec({
         }
 
         test("repository creation error") {
-            doReturn(null).`when`(mockRepo).create(anyString())
+            doReturn(null).upon(mockRepo).create(any())
 
             val response = controller.create("Wayne Ent.")
 
@@ -67,7 +67,7 @@ For example running the tests above after replacing the second test with
 
 ```
 ftest("repository creation error") {
-    doReturn(null).`when`(mockRepo).create(anyString())
+    doReturn(null).upon(mockRepo).create(anyString())
 
     val response = controller.create("Wayne Ent.")
 
@@ -95,18 +95,18 @@ encourages making your test code clear and easy to read, so we are not adding an
 We tried to make custom Domain Specific Languages easy to write.
 You can see an example of a second DSL we created allowing nesting by following these links:
 
- * [Implementation](https://github.com/dam5s/kspec/blob/master/libraries/kspec/src/main/kotlin/io/damo/kspec/NestedSpec.kt)
- * [Usage](https://github.com/dam5s/kspec/blob/master/libraries/kspec/src/test/kotlin/kspec/examples/NestedSpecExample.kt)
+ * [Implementation](https://github.com/dam5s/aspen/blob/master/libraries/aspen/src/main/kotlin/io/damo/aspen/NestedTest.kt)
+ * [Usage](https://github.com/dam5s/aspen/blob/master/libraries/aspen/src/test/kotlin/aspen/examples/NestedTestExample.kt)
 
 ## Spring Support
 
 KSpec supports Spring!
 
 ```
-@RunWith(SpringSpecTreeRunner::class)
+@RunWith(SpringTestTreeRunner::class)
 @SpringApplicationConfiguration(ExampleApplication::class)
 @WebIntegrationTest("server.port:0")
-class SpringApplicationSpec : Spec({
+class SpringApplicationTest : Test({
 
     val message: String = inject("myMessage")
     val port = injectValue("local.server.port", Int::class)
@@ -130,8 +130,8 @@ class SpringApplicationSpec : Spec({
 
 You will find actually up-to-date examples that are part of our test suite in the following locations:
 
- * [Plain Java](https://github.com/dam5s/kspec/tree/master/libraries/kspec/src/test/kotlin/kspec/examples)
- * [Spring Application](https://github.com/dam5s/kspec/tree/master/libraries/kspec-spring/src/test/kotlin/kspec/spring/examples)
+ * [Plain Java](https://github.com/dam5s/aspen/tree/master/libraries/aspen/src/test/kotlin/aspen/examples)
+ * [Spring Application](https://github.com/dam5s/aspen/tree/master/libraries/aspen-spring/src/test/kotlin/aspen/spring/examples)
 
 ## What's next?
 

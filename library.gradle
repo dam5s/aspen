@@ -30,13 +30,13 @@ bintray {
 
     pkg {
         repo = "maven"
-        name = "kspec"
-        websiteUrl = "https://github.com/dam5s/kspec"
-        vcsUrl = "https://github.com/dam5s/kspec.git"
+        name = "aspen"
+        websiteUrl = "https://github.com/dam5s/aspen"
+        vcsUrl = "https://github.com/dam5s/aspen.git"
         licenses = ["MIT"]
 
         version {
-            name = kspecVersion
+            name = aspenVersion
             desc = "Descriptive unit tests à la Rspec"
         }
     }

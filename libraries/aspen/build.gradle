@@ -1,0 +1,18 @@
+apply from: "../../kotlin.gradle"
+apply from: "../../library.gradle"
+
+publishing {
+    publications {
+        AspenSpringPublication(MavenPublication) {
+            from components.java
+            groupId "io.damo.aspen"
+            artifactId "aspen"
+            version aspenVersion
+            artifact sourcesJar
+        }
+    }
+}
+
+bintray {
+    publications = ["AspenSpringPublication"]
+}
