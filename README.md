@@ -100,7 +100,7 @@ You can see an example of a second DSL we created allowing nesting by following 
 
 ## Spring Support
 
-KSpec supports Spring!
+Aspen supports Spring!
 
 ```
 @RunWith(SpringTestTreeRunner::class)
