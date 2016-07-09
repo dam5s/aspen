@@ -32,17 +32,42 @@ open class Test : TestTree {
         root.after = block
     }
 
-    fun describe(name: String, block: TestDescription.() -> Unit) {
-        val newBranch = root.addChildBranch(name)
+    fun describe(name: Any, block: TestDescription.() -> Unit) {
+        val newBranch = root.addChildBranch(name.toString())
         TestDescription(newBranch, unnamedTestCounter).block()
     }
 
+    fun test(name: Any = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
+        root.addChildLeaf(name.toString(), block)
+    }
+
+    fun ftest(name: Any = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
+        root.addChildLeaf(name.toString(), block, focused = true)
+    }
+
+    fun <T : TestData> tableTest(tableData: List<T>, block: T.() -> Unit) {
+        tableData.forEach { data ->
+            val newBranch = root.addChildBranch(data.context.toString())
+
+            data.apply {
+                branch = newBranch
+                unnamedTestCounter = this@Test.unnamedTestCounter
+                block()
+            }
+        }
+    }
+}
+
+open class TestData(val context:Any) {
+    internal lateinit var branch: TestBranch
+    internal lateinit var unnamedTestCounter: Counter
+
     fun test(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
-        root.addChildLeaf(name, block)
+        branch.addChildLeaf(name, block)
     }
 
     fun ftest(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
-        root.addChildLeaf(name, block, focused = true)
+        branch.addChildLeaf(name, block, focused = true)
     }
 }
 
