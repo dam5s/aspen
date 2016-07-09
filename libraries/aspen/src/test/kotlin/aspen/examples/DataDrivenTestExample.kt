@@ -3,10 +3,9 @@ package aspen.examples
 import io.damo.aspen.Test
 import io.damo.aspen.TestData
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.equalTo
 
 class HeroTest : Test({
-
 
     class HeroStanceData(
         context: String,
@@ -24,30 +23,32 @@ class HeroTest : Test({
     )
 
     tableTest(testData) {
-        fun testLabel(flag: Boolean, action: String)
-            = "it ${flag.shouldOrNot()} be $action"
-
-        test(testLabel(running, "running")) {
+        test("it ${running.shouldOrShouldNot()} be running") {
             assertThat(hero.isRunning, equalTo(running))
         }
 
-        test(testLabel(jumping, "jumping")) {
+        test("it ${jumping.shouldOrShouldNot()} be running") {
             assertThat(hero.isJumping, equalTo(jumping))
         }
 
-        test(testLabel(standing, "standing")) {
+        test("it ${standing.shouldOrShouldNot()} be running") {
             assertThat(hero.isStanding, equalTo(standing))
         }
     }
 })
 
 
-fun Boolean.shouldOrNot() = if (this) "should" else "shouldn't"
+fun Boolean.shouldOrShouldNot() = if (this) "should" else "shouldn't"
 
 class Hero() {
-    val isRunning: Boolean get() = false
-    val isJumping: Boolean get() = false
-    val isStanding: Boolean get() = true
+    var isRunning = false
+        private set
+
+    var isJumping = false
+        private set
+
+    var isStanding = true
+        private set
 
     fun run() {
     }
