@@ -1,6 +1,6 @@
 [ ![Download](https://api.bintray.com/packages/dam5s/maven/aspen/images/download.svg) ](https://bintray.com/dam5s/maven/aspen/_latestVersion)
 
-# Aspen
+# <img src="https://rawgithub.com/dam5s/aspen/master/images/aspen.svg" width="200px" />
 
 Aspen is a JUnit runner for Kotlin. It's inspired by Ruby's RSpec syntax,
 but it has a lot more restrictions and some features have been purposefully omitted.
