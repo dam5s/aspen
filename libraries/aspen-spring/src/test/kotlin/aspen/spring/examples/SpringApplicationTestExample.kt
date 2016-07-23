@@ -6,8 +6,7 @@ import io.damo.aspen.spring.inject
 import io.damo.aspen.spring.injectValue
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.hamcrest.Matchers.equalTo
-import org.junit.Assert.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
@@ -37,8 +36,8 @@ class SpringApplicationTestExample : Test({
         val response = client.newCall(request).execute()
 
         val body = response.body().string()
-        assertThat(body, equalTo("""{"hello":"world"}"""))
-        assertThat(body, equalTo("""{"hello":"$message"}"""))
+        assertThat(body).isEqualTo("""{"hello":"world"}""")
+        assertThat(body).isEqualTo("""{"hello":"$message"}""")
     }
 
     test("GET /world") {
@@ -48,6 +47,6 @@ class SpringApplicationTestExample : Test({
 
         val response = client.newCall(request).execute()
 
-        assertThat(response.code(), equalTo(200))
+        assertThat(response.code()).isEqualTo(200)
     }
 })

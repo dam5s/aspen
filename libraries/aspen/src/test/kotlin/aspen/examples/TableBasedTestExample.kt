@@ -2,8 +2,7 @@ package aspen.examples
 
 import io.damo.aspen.Test
 import io.damo.aspen.TestData
-import org.hamcrest.Matchers.equalTo
-import org.junit.Assert.assertThat
+import org.assertj.core.api.Assertions.assertThat
 
 /**
  * It is very easy to write table based tests using the DSL.
@@ -17,13 +16,13 @@ class ReservationTestExample : Test({
 
         statusesWithoutAmount.forEach { status ->
             test("when status is $status") {
-                assertThat(Reservation(status).amount(), equalTo(0))
+                assertThat(Reservation(status).amount()).isEqualTo(0)
             }
         }
 
         statusesWithAmount.forEach { status ->
             test("when status is $status") {
-                assertThat(Reservation(status).amount(), equalTo(100))
+                assertThat(Reservation(status).amount()).isEqualTo(100)
             }
         }
     }
@@ -41,7 +40,7 @@ class ReservationTestExample : Test({
             val expectedAmount = entry.value
 
             test("when status is $status") {
-                assertThat(Reservation(status).amount(), equalTo(expectedAmount))
+                assertThat(Reservation(status).amount()).isEqualTo(expectedAmount)
             }
         }
     }
@@ -58,7 +57,7 @@ class ReservationTestExample : Test({
         )
 
         tableTest(data) {
-            assertThat(Reservation(status).amount(), equalTo(amount))
+            assertThat(Reservation(status).amount()).isEqualTo(amount)
         }
     }
 })

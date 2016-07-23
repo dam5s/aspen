@@ -1,8 +1,8 @@
 package aspen.examples
 
 import io.damo.aspen.Test
-import org.hamcrest.Matchers.equalTo
-import org.junit.Assert.assertThat
+import org.assertj.core.api.Assertions.assertThat
+
 
 
 /**
@@ -15,7 +15,7 @@ class PersonTestExample : Test({
                 firstName = "Jane",
                 lastName = "Doe"
             )
-            assertThat(person.fullName(), equalTo("Jane Doe"))
+            assertThat(person.fullName()).isEqualTo("Jane Doe")
         }
 
         test("with a middle name") {
@@ -24,7 +24,7 @@ class PersonTestExample : Test({
                 middleName = "William",
                 lastName = "Doe"
             )
-            assertThat(person.fullName(), equalTo("John W. Doe"))
+            assertThat(person.fullName()).isEqualTo("John W. Doe")
         }
     }
 
@@ -34,7 +34,7 @@ class PersonTestExample : Test({
                 firstName = "Jane",
                 lastName = "Doe"
             )
-            assertThat(person.greeting(), equalTo("Greetings Jane!"))
+            assertThat(person.greeting()).isEqualTo("Greetings Jane!")
         }
     }
 })

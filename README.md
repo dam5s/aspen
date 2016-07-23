@@ -28,7 +28,7 @@ repositories {
 
 ## Example
 
-If you were to use Hamcrest for assertions.
+If you were to use AssertJ for assertions.
 
 ```
 class CompanyControllerTest: Test({
@@ -47,7 +47,7 @@ class CompanyControllerTest: Test({
 
             val response = controller.create("Wayne Ent.")
 
-            assertThat(response, equalTo(Response(company, true)))
+            assertThat(response).isEqualTo(Response(company, true))
             verify(mockRepo).create("Wayne Ent.")
         }
 
@@ -56,7 +56,7 @@ class CompanyControllerTest: Test({
 
             val response = controller.create("Wayne Ent.")
 
-            assertThat(response, equalTo(Response(null as Company?, false)))
+            assertThat(response).isEqualTo(Response(null as Company?, false))
         }
     }
 })
@@ -71,7 +71,7 @@ ftest("repository creation error") {
 
     val response = controller.create("Wayne Ent.")
 
-    assertThat(response, equalTo(Response(null as Company?, false)))
+    assertThat(response).isEqualTo(Response(null as Company?, false))
 }
 ```
 
@@ -94,7 +94,7 @@ class ReservationTestExample : Test({
         )
 
         tableTest(data) {
-            assertThat(Reservation(status).amount(), equalTo(amount))
+            assertThat(Reservation(status).amount()).isEqualTo(amount)
         }
     }
 })
@@ -145,7 +145,7 @@ class SpringApplicationTest : Test({
         val response = client.newCall(request).execute()
 
         val body = response.body().string()
-        assertThat(body, equalTo("""{"hello":"$message"}"""))
+        assertThat(body).isEqualTo("""{"hello":"$message"}""")
     }
 })
 ```

@@ -1,8 +1,7 @@
 package aspen.examples
 
 import io.damo.aspen.NestedTest
-import org.hamcrest.Matchers.equalTo
-import org.junit.Assert.assertThat
+import org.assertj.core.api.Assertions.assertThat
 
 /**
  * We do not want to encourage nesting tests like this,
@@ -31,15 +30,15 @@ class NestedTestExample : NestedTest({
             }
 
             test {
-                assertThat(someString, equalTo("Hello World. How is it going?"))
+                assertThat(someString).isEqualTo("Hello World. How is it going?")
             }
 
             test {
-                assertThat(someString, equalTo("Hello World. How is it going?"))
+                assertThat(someString).isEqualTo("Hello World. How is it going?")
             }
 
             test("this test will fail in nested something") {
-                assertThat(someString, equalTo("Hello World. How is it NOT going?"))
+                assertThat(someString).isEqualTo("Hello World. How is it NOT going?")
             }
         }
 
@@ -49,7 +48,7 @@ class NestedTestExample : NestedTest({
             }
 
             test {
-                assertThat(someString, equalTo("Hello World. What's up?"))
+                assertThat(someString).isEqualTo("Hello World. What's up?")
             }
         }
     }
@@ -60,11 +59,11 @@ class NestedTestExample : NestedTest({
         }
 
         test {
-            assertThat(someString, equalTo("Hello Kotlin."))
+            assertThat(someString).isEqualTo("Hello Kotlin.")
         }
 
         test("this test will fail in something else") {
-            assertThat(someString, equalTo("Hello Java."))
+            assertThat(someString).isEqualTo("Hello Java.")
         }
     }
 })

@@ -1,8 +1,7 @@
 package aspen.examples
 
 import io.damo.aspen.Test
-import org.hamcrest.Matchers.equalTo
-import org.junit.Assert.assertThat
+import org.assertj.core.api.Assertions.assertThat
 
 
 /**
@@ -12,13 +11,13 @@ import org.junit.Assert.assertThat
 class RunnableTestExample : Test({
     test {
         val runnable = MyRunnable()
-        assertThat(runnable.value, equalTo(1))
+        assertThat(runnable.value).isEqualTo(1)
 
         runnable.run()
-        assertThat(runnable.value, equalTo(2))
+        assertThat(runnable.value).isEqualTo(2)
 
         runnable.run()
-        assertThat(runnable.value, equalTo(3))
+        assertThat(runnable.value).isEqualTo(3)
     }
 })
 

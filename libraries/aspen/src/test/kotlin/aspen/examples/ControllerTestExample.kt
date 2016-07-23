@@ -1,8 +1,7 @@
 package aspen.examples
 
 import io.damo.aspen.Test
-import org.hamcrest.Matchers.equalTo
-import org.junit.Assert.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.mockito.Mockito.*
 
 /**
@@ -28,7 +27,7 @@ class CompanyControllerTestExample : Test({
 
             val response = controller.create("Wayne Ent.")
 
-            assertThat(response, equalTo(CompanyResponse(company, true)))
+            assertThat(response).isEqualTo(CompanyResponse(company, true))
             verify(mockRepo).create("Wayne Ent.")
         }
 
@@ -37,7 +36,7 @@ class CompanyControllerTestExample : Test({
 
             val response = controller.create("Wayne Ent.")
 
-            assertThat(response, equalTo(CompanyResponse(null as Company?, false)))
+            assertThat(response).isEqualTo(CompanyResponse(null as Company?, false))
         }
     }
 })
