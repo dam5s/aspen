@@ -76,4 +76,3 @@ enum class Status {
     OPEN, STARTED, BILLED, PAID
 }
 
-

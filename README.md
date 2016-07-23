@@ -77,6 +77,30 @@ ftest("repository creation error") {
 
 Only that second test will get run.
 
+Writing table based tests (a.k.a. Parameterized tests) can be as simple as the following
+
+```
+class ReservationTestExample : Test({
+
+    describe("#amount") {
+        class AmountData
+        (name: String, val status: Status, val amount: Int) : TestData(name)
+
+        val data = listOf(
+            AmountData("when status is OPEN", Status.OPEN, 0),
+            AmountData("when status is STARTED", Status.STARTED, 0),
+            AmountData("when status is BILLED", Status.BILLED, 100),
+            AmountData("when status is PAID", Status.PAID, 100)
+        )
+
+        tableTest(data) {
+            assertThat(Reservation(status).amount(), equalTo(amount))
+        }
+    }
+})
+```
+
+
 ## Restrictions
 
 There can only be one `before` block and it has to be at the top level.
