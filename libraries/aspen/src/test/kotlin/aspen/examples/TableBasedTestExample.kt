@@ -1,6 +1,7 @@
 package aspen.examples
 
 import io.damo.aspen.Test
+import io.damo.aspen.TestData
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 
@@ -15,16 +16,14 @@ class ReservationTestExample : Test({
         val statusesWithAmount = arrayOf(Status.BILLED, Status.PAID)
 
         statusesWithoutAmount.forEach { status ->
-            test("when the status is $status") {
-                val reservation = Reservation(status)
-                assertThat(reservation.amount(), equalTo(0))
+            test("when status is $status") {
+                assertThat(Reservation(status).amount(), equalTo(0))
             }
         }
 
         statusesWithAmount.forEach { status ->
-            test("when the status is $status") {
-                val reservation = Reservation(status)
-                assertThat(reservation.amount(), equalTo(100))
+            test("when status is $status") {
+                assertThat(Reservation(status).amount(), equalTo(100))
             }
         }
     }
@@ -41,10 +40,25 @@ class ReservationTestExample : Test({
             val status = entry.key
             val expectedAmount = entry.value
 
-            test("when the status is $status") {
-                val reservation = Reservation(status)
-                assertThat(reservation.amount(), equalTo(expectedAmount))
+            test("when status is $status") {
+                assertThat(Reservation(status).amount(), equalTo(expectedAmount))
             }
+        }
+    }
+
+    describe("#amount - test data based") {
+        class AmountData
+        (name: String, val status: Status, val amount: Int) : TestData(name)
+
+        val data = listOf(
+            AmountData("when status is OPEN", Status.OPEN, 0),
+            AmountData("when status is STARTED", Status.STARTED, 0),
+            AmountData("when status is BILLED", Status.BILLED, 100),
+            AmountData("when status is PAID", Status.PAID, 100)
+        )
+
+        tableTest(data) {
+            assertThat(Reservation(status).amount(), equalTo(amount))
         }
     }
 })

@@ -59,14 +59,14 @@ class TestBranch : TestTreeNode {
         }
     }
 
-    fun addChildBranch(name: String): TestBranch {
-        val newBranch = TestBranch(name, this)
+    fun addChildBranch(name: Any): TestBranch {
+        val newBranch = TestBranch(name.toString(), this)
         children.add(newBranch)
         return newBranch
     }
 
-    fun addChildLeaf(name: String, block: () -> Unit, focused: Boolean = false): TestLeaf {
-        val newLeaf = TestLeaf(name, this, block, focused = focused)
+    fun addChildLeaf(name: Any, block: () -> Unit, focused: Boolean = false): TestLeaf {
+        val newLeaf = TestLeaf(name.toString(), this, block, focused = focused)
         children.add(newLeaf)
         return newLeaf
     }
