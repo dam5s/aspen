@@ -1,62 +1,55 @@
 package io.damo.aspen
 
+import org.junit.rules.TestRule
+
 
 interface TestTree {
     fun getRoot(): TestBranch
     fun readTestBody()
 }
 
-abstract class TestTreeNode {
+
+abstract class TestTreeNode(val name: String, val parent: TestBranch?) {
+
     companion object {
         private var currentId: Long = 0
         fun nextId() = currentId++
     }
 
-    val id: Long
-    val name: String
-    val parent: TestBranch?
-    val children: MutableCollection<TestTreeNode>
+    val id: Long = nextId()
+    val children: MutableCollection<TestTreeNode> = arrayListOf()
 
-    constructor(
-        name: String,
-        parent: TestBranch?,
-        children: MutableCollection<TestTreeNode>
-    ) {
-        this.id = nextId()
-        this.name = name
-        this.parent = parent
-        this.children = children
-    }
 
     fun isRoot() = (parent == null)
+
+    abstract fun allRules(): List<TestRule>
 
     abstract fun isFocused(): Boolean
 }
 
-class TestBranch : TestTreeNode {
+
+class TestBranch(name: String, parent: TestBranch?) : TestTreeNode(name, parent) {
+
     companion object {
-        fun createRoot() = TestBranch("", null, arrayListOf(), null, null)
+        fun createRoot() = TestBranch("", null)
     }
 
-    var before: (() -> Unit)?
-    var after: (() -> Unit)?
+    private val rules: MutableList<TestRule> = arrayListOf()
 
-    constructor(
-        name: String,
-        parent: TestBranch?,
-        children: MutableCollection<TestTreeNode> = arrayListOf(),
-        before: (() -> Unit)? = null,
-        after: (() -> Unit)? = null
-    ) : super(name, parent, children) {
+    var before: (() -> Unit)? = null
+    var after: (() -> Unit)? = null
 
-        this.before = before
-        this.after = after
+
+    override fun isFocused() = children.any(TestTreeNode::isFocused)
+
+    override fun allRules(): List<TestRule> {
+        val parentRules = parent?.rules ?: arrayListOf()
+        parentRules.addAll(rules)
+        return parentRules
     }
 
-    override fun isFocused(): Boolean {
-        return children.any {
-            it.isFocused()
-        }
+    fun addRule(rule: TestRule) {
+        rules.add(rule)
     }
 
     fun addChildBranch(name: Any): TestBranch {
@@ -72,17 +65,13 @@ class TestBranch : TestTreeNode {
     }
 }
 
-class TestLeaf : TestTreeNode {
 
-    val block: (() -> Unit)
-    val focused: Boolean
-
-    constructor(name: String, parent: TestBranch, block: (() -> Unit), focused: Boolean) : super(name, parent, arrayListOf()) {
-        this.block = block
-        this.focused = focused
-    }
+class TestLeaf(name: String, parent: TestBranch, val block: (() -> Unit), val focused: Boolean) : TestTreeNode(name, parent) {
 
     override fun isFocused() = focused
+
+    override fun allRules(): List<TestRule> = parent?.allRules() ?: arrayListOf()
+
 
     fun collectBeforesAndAfters(): Hooks {
         val befores = arrayListOf<() -> Unit>()

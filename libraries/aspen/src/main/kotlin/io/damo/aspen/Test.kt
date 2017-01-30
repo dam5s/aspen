@@ -1,9 +1,11 @@
 package io.damo.aspen
 
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 
 @RunWith(TestTreeRunner::class)
 open class Test : TestTree {
+
     private val root = TestBranch.createRoot()
     private val body: Test.() -> Unit
     private val unnamedTestCounter: Counter
@@ -23,6 +25,9 @@ open class Test : TestTree {
     override fun readTestBody() {
         this.body.invoke(this)
     }
+
+    fun useRule(rule: TestRule)
+        = root.addRule(rule)
 
     fun before(block: () -> Unit) {
         root.before = block

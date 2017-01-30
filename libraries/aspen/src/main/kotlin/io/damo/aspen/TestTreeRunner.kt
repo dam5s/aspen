@@ -6,19 +6,16 @@ import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunNotifier
 import org.junit.runners.ParentRunner
 import org.junit.runners.model.MultipleFailureException
+import org.junit.runners.model.Statement
 import java.util.*
 
 
-open class TestTreeRunner<T : TestTree> : ParentRunner<TestTreeNodeRunner> {
+open class TestTreeRunner<T : TestTree>(val testTreeClass: Class<T>)
+    : ParentRunner<TestTreeNodeRunner>(testTreeClass) {
+
 
     val testTree by lazy { testTreeClass.newInstance() }
-    val testTreeClass: Class<T>
-
     private val _children by lazy { buildChildren() }
-
-    constructor(testTreeClass: Class<T>) : super(testTreeClass) {
-        this.testTreeClass = testTreeClass
-    }
 
 
     override fun getChildren() = _children
@@ -50,23 +47,12 @@ interface TestTreeNodeRunner {
 }
 
 
-class TestBranchRunner<T : TestTree> : TestTreeNodeRunner, ParentRunner<TestTreeNodeRunner> {
+class TestBranchRunner<T : TestTree>(val testTreeClass: Class<T>, val testTreeNode: TestTreeNode, val runFocusedOnly: Boolean)
+    : TestTreeNodeRunner, ParentRunner<TestTreeNodeRunner>(testTreeClass) {
 
-    val testTreeNode: TestTreeNode
-    val testTreeClass: Class<T>
-    val runFocusedOnly: Boolean
+    private val children = buildChildren()
+    private val description = buildDescription()
 
-    private val description: Description
-    private val children: MutableList<TestTreeNodeRunner>
-
-    constructor(testTreeClass: Class<T>, testTreeNode: TestTreeNode, runFocusedOnly: Boolean) : super(testTreeClass) {
-        this.testTreeClass = testTreeClass
-        this.testTreeNode = testTreeNode
-        this.runFocusedOnly = runFocusedOnly
-
-        this.children = buildChildren()
-        this.description = buildDescription()
-    }
 
     override fun getName(): String {
         if (testTreeNode.isRoot())
@@ -129,25 +115,39 @@ class TestLeafRunner(val testLeaf: TestLeaf) : TestTreeNodeRunner {
     }
 
     override fun run(notifier: RunNotifier) {
+        val description = getDescription()
+        var statement = buildStatement()
+
+        for (rule in testLeaf.allRules()) {
+            statement = rule.apply(statement, description)
+        }
+
+        statement.evaluate()
+    }
+
+
+    private fun buildStatement(): Statement {
         val (befores, afters) = testLeaf.collectBeforesAndAfters()
         val errors = ArrayList<Throwable>()
 
-        try {
-            befores.forEach {
-                it.invoke()
-            }
-            testLeaf.block.invoke()
-
-        } finally {
-            afters.forEach {
+        return object : Statement() {
+            override fun evaluate() {
                 try {
-                    it.invoke()
-                } catch(e: Throwable) {
-                    errors.add(e)
+                    befores.forEach { it.invoke() }
+                    testLeaf.block.invoke()
+
+                } finally {
+                    afters.forEach {
+                        try {
+                            it.invoke()
+                        } catch(e: Throwable) {
+                            errors.add(e)
+                        }
+                    }
+
+                    MultipleFailureException.assertEmpty(errors)
                 }
             }
-
-            MultipleFailureException.assertEmpty(errors)
         }
     }
 }

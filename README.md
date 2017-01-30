@@ -35,6 +35,8 @@ class CompanyControllerTest: Test({
 
     val mockRepo = mock(CompanyRepository::class.java)
     val controller = CompanyController(mockRepo)
+    
+    useRule(MyAwesomeRule())
 
     before {
         reset(mockRepo)
