@@ -2,6 +2,7 @@ package io.damo.aspen
 
 import org.junit.runner.Description
 import org.junit.runner.Description.createSuiteDescription
+import org.junit.runner.Description.createTestDescription
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunNotifier
 import org.junit.runners.ParentRunner
@@ -111,7 +112,7 @@ class TestBranchRunner<T : TestTree>(val testTreeClass: Class<T>, val testTreeNo
 class TestLeafRunner(val testLeaf: TestLeaf) : TestTreeNodeRunner {
 
     override fun getDescription(): Description {
-        return createSuiteDescription(testLeaf.testName, testLeaf.id)!!
+        return createTestDescription(testLeaf.rootName(), testLeaf.testName, testLeaf.id)!!
     }
 
     override fun run(notifier: RunNotifier) {

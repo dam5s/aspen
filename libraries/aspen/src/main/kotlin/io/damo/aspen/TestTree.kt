@@ -22,6 +22,8 @@ abstract class TestTreeNode(val name: String, val parent: TestBranch?) {
 
     fun isRoot() = (parent == null)
 
+    fun rootName(): String = parent?.rootName() ?: name
+
     abstract fun allRules(): List<TestRule>
 
     abstract fun isFocused(): Boolean
@@ -31,7 +33,7 @@ abstract class TestTreeNode(val name: String, val parent: TestBranch?) {
 class TestBranch(name: String, parent: TestBranch?) : TestTreeNode(name, parent) {
 
     companion object {
-        fun createRoot() = TestBranch("", null)
+        fun createRoot(name: String) = TestBranch(name, null)
     }
 
     private val rules: MutableList<TestRule> = arrayListOf()
@@ -93,13 +95,11 @@ class TestLeaf(name: String, parent: TestBranch, val block: (() -> Unit), val fo
 
     val testName: String
         get() {
-            val parentName = parent?.name ?: ""
-
-            if (parentName.isEmpty()) {
+            if (parent!!.isRoot()) {
                 return name
-            } else {
-                return "$name ($parentName)"
             }
+
+            return "${parent.name} $name"
         }
 }
 

@@ -6,18 +6,15 @@ import org.junit.runner.RunWith
 @RunWith(TestTreeRunner::class)
 open class Test : TestTree {
 
-    private val root = TestBranch.createRoot()
+    private val root = TestBranch.createRoot(javaClass.name)
     private val body: Test.() -> Unit
-    private val unnamedTestCounter: Counter
 
     constructor(body: Test.() -> Unit) {
         this.body = body
-        this.unnamedTestCounter = Counter()
     }
 
     constructor() {
         this.body = {}
-        this.unnamedTestCounter = Counter()
     }
 
     override fun getRoot() = root
@@ -38,13 +35,13 @@ open class Test : TestTree {
     }
 
     fun describe(name: Any, block: TestDescription.() -> Unit)
-        = TestDescription(root.addChildBranch(name), unnamedTestCounter).block()
+        = TestDescription(root.addChildBranch(name)).block()
 
     fun test(name: Any? = null, block: () -> Unit)
-        = focusedTest(root, name, block, unnamedTestCounter)
+        = focusedTest(root, name, block)
 
     fun ftest(name: Any? = null, block: () -> Unit)
-        = focusedTest(root, name, block, unnamedTestCounter, focused = true)
+        = focusedTest(root, name, block, focused = true)
 
     fun <T : TestData> tableTest(tableData: List<T>, block: T.() -> Unit)
         = focusedTableTest(root, tableData, block)
@@ -57,12 +54,12 @@ open class Test : TestTree {
 open class TestData(val name: Any)
 
 
-class TestDescription(private val branch: TestBranch, private val unnamedTestCounter: Counter) {
+class TestDescription(private val branch: TestBranch) {
     fun test(name: Any? = null, block: () -> Unit)
-        = focusedTest(branch, name, block, unnamedTestCounter)
+        = focusedTest(branch, name, block)
 
-    fun ftest(name: Any = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit)
-        = focusedTest(branch, name, block, unnamedTestCounter, focused = true)
+    fun ftest(name: Any = "test", block: () -> Unit)
+        = focusedTest(branch, name, block, focused = true)
 
     fun <T : TestData> tableTest(tableData: List<T>, block: T.() -> Unit)
         = focusedTableTest(branch, tableData, block)
@@ -72,8 +69,8 @@ class TestDescription(private val branch: TestBranch, private val unnamedTestCou
 }
 
 
-private fun focusedTest(branch: TestBranch, name: Any?, block: () -> Unit, unnamedTestCounter: Counter, focused: Boolean = false) {
-    val testName = name?.toString() ?: "unnamed test #${unnamedTestCounter.next()}"
+private fun focusedTest(branch: TestBranch, name: Any?, block: () -> Unit, focused: Boolean = false) {
+    val testName = name?.toString() ?: "test"
     branch.addChildLeaf(testName, block, focused)
 }
 

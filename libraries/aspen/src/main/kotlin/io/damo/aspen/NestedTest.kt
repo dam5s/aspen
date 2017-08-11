@@ -7,17 +7,14 @@ open class NestedTest : TestTree {
 
     private val body: NestedTest.() -> Unit
     private val branch: TestBranch
-    private val unnamedTestCounter: Counter
 
     constructor(body: NestedTest.() -> Unit) {
-        this.branch = TestBranch.createRoot()
-        this.unnamedTestCounter = Counter()
+        this.branch = TestBranch.createRoot(javaClass.name)
         this.body = body
     }
 
-    constructor(branch: TestBranch, counter: Counter) {
+    constructor(branch: TestBranch) {
         this.branch = branch
-        this.unnamedTestCounter = counter
         this.body = {}
     }
 
@@ -37,14 +34,14 @@ open class NestedTest : TestTree {
 
     fun describe(name: String, block: NestedTest.() -> Unit) {
         val newBranch = branch.addChildBranch(name)
-        NestedTest(newBranch, unnamedTestCounter).block()
+        NestedTest(newBranch).block()
     }
 
-    fun test(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
+    fun test(name: String = "test", block: () -> Unit) {
         branch.addChildLeaf(name, block)
     }
 
-    fun ftest(name: String = "unnamed test #${unnamedTestCounter.next()}", block: () -> Unit) {
+    fun ftest(name: String = "test", block: () -> Unit) {
         branch.addChildLeaf(name, block, focused = true)
     }
 }
