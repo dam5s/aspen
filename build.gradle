@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        aspenVersion = "2.0.0"
+        aspenVersion = "2.1.0"
         kotlinVersion = "1.0.6"
     }
 
