@@ -9,18 +9,18 @@ the default DSL has a lot more restrictions but you can create your own DSL if i
 
 Aspen
 
-```
+```gradle
 testCompile "io.damo.aspen:aspen:<version>"
 ```
 
 Aspen Spring
 
-```
+```gradle
 testCompile "io.damo.aspen:aspen-spring:<version>"
 ```
 
 You will need to use jCenter maven repository
-```
+```gradle
 repositories {
     jcenter()
 }
@@ -30,7 +30,7 @@ repositories {
 
 If you were to use AssertJ for assertions.
 
-```
+```kotlin
 class CompanyControllerTest: Test({
 
     val mockRepo = mock(CompanyRepository::class.java)
@@ -67,7 +67,7 @@ class CompanyControllerTest: Test({
 You can focus a test by prefixing changing `test` to `ftest`. Then only this or these tests get run.
 For example running the tests above after replacing the second test with
 
-```
+```kotlin
 ftest("repository creation error") {
     doReturn(null).upon(mockRepo).create(anyString())
 
@@ -81,7 +81,7 @@ Only that second test will get run.
 
 Writing table based tests (a.k.a. Parameterized tests) can be as simple as the following
 
-```
+```kotlin
 class ReservationTestExample : Test({
 
     describe("#amount") {
@@ -128,7 +128,7 @@ You can see an example of a second DSL we created allowing nesting by following 
 
 Aspen supports Spring!
 
-```
+```kotlin
 @RunWith(SpringTestTreeRunner::class)
 @SpringApplicationConfiguration(ExampleApplication::class)
 @WebIntegrationTest("server.port:0")
