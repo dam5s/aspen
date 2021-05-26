@@ -7,8 +7,8 @@ the default DSL has a lot more restrictions, but you can create your own DSL if 
 
 ```gradle
 dependencies {
-    testImplementation "com.github.dam5s:aspen:aspen-2.1.0"
-    testImplementation "com.github.dam5s:aspen:aspen-spring-2.1.0"
+    testImplementation "com.github.dam5s.aspen:aspen:2.1.0"
+    testImplementation "com.github.dam5s.aspen:aspen-spring:2.1.0"
 }
 
 repositories {
