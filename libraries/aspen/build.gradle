@@ -12,7 +12,3 @@ publishing {
         }
     }
 }
-
-bintray {
-    publications = ["AspenSpringPublication"]
-}

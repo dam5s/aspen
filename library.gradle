@@ -23,21 +23,3 @@ def propertiesFile = project.rootProject.file("local.properties")
 if (propertiesFile.file) {
     properties.load(propertiesFile.newDataInputStream())
 }
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    pkg {
-        repo = "maven"
-        name = "aspen"
-        websiteUrl = "https://github.com/dam5s/aspen"
-        vcsUrl = "https://github.com/dam5s/aspen.git"
-        licenses = ["MIT"]
-
-        version {
-            name = aspenVersion
-            desc = "Descriptive unit tests à la Rspec"
-        }
-    }
-}

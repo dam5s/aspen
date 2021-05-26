@@ -1,30 +1,22 @@
-[ ![Download](https://api.bintray.com/packages/dam5s/maven/aspen/images/download.svg) ](https://bintray.com/dam5s/maven/aspen/_latestVersion)
-
 # <img src="https://rawgithub.com/dam5s/aspen/master/images/aspen.svg" width="200px" />
 
 Aspen is a JUnit runner for Kotlin. It's inspired by Ruby's RSpec syntax,
-the default DSL has a lot more restrictions but you can create your own DSL if it does not fit your needs.
+the default DSL has a lot more restrictions, but you can create your own DSL if it does not fit your needs.
 
 ## Gradle usage
 
-Aspen
-
 ```gradle
-testCompile "io.damo.aspen:aspen:<version>"
-```
+dependencies {
+    testImplementation "com.github.dam5s:aspen:aspen-2.1.0"
+    testImplementation "com.github.dam5s:aspen:aspen-spring-2.1.0"
+}
 
-Aspen Spring
-
-```gradle
-testCompile "io.damo.aspen:aspen-spring:<version>"
-```
-
-You will need to use jCenter maven repository
-```gradle
 repositories {
-    jcenter()
+    maven { url 'https://jitpack.io' }
 }
 ```
+
+You can also download the JAR files from the release and add them to your path.
 
 ## Example
 
@@ -163,7 +155,3 @@ You will find actually up-to-date examples that are part of our test suite in th
 
  * [Kotlin testing with Aspen and Aspen Spring](https://medium.com/@its_damo/kotlin-testing-with-aspen-and-aspen-spring-59a3d211a374)
  * [Testing Kotlin with a custom DSL for Aspen](https://medium.com/@its_damo/testing-kotlin-with-a-custom-dsl-for-aspen-ab4b04efe77a)
-
-## What's next?
-
-We have a Pivotal Tracker project, [see for yourself](https://www.pivotaltracker.com/n/projects/1559513)
